@@ -1,7 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-native';
 import Login from './screens/LoginScreen';
-import Routes from './screens/routes';
 
 
 const App: React.FC = () => {
