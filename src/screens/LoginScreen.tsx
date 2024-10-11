@@ -1,59 +1,49 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
-// TypeScript interface pour les props
-interface LoginProps {
-  onLogin: (email: string, password: string) => void;
-  navigation: any; // Add navigation prop if you're using it for Forgot Password
-}
-
-const Login: React.FC<LoginProps> = ({ onLogin, navigation }) => {
+const Login = ({ navigation }: { navigation: any }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  // Fonction pour gérer la soumission du formulaire
   const handleLogin = () => {
-    if (!email || !password) {
-      Alert.alert('Erreur', 'Veuillez entrer un email et un mot de passe.');
-      return;
+    if (email === '' || password === '') {
+      Alert.alert('Error', 'Please fill in both fields');
+    } else {
+      Alert.alert('Success', 'Logged in successfully');
     }
-
-    // Appel à la fonction de connexion
-    onLogin(email, password);
-  };
-
-  // Fonction pour gérer le clic sur le lien "Mot de passe oublié ?"
-  const handleForgotPassword = () => {
-    Alert.alert('Mot de passe oublié', 'Veuillez contacter le support pour réinitialiser votre mot de passe.');
-    // Optionally, you can navigate to a dedicated screen for password recovery
-    // navigation.navigate('ForgotPassword');
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign In</Text>
-
+      <Text style={styles.title}>Welcome Back</Text>
+      
       <TextInput
         style={styles.input}
         placeholder="Email"
-        keyboardType="email-address"
         value={email}
         onChangeText={setEmail}
+        keyboardType="email-address"
         autoCapitalize="none"
       />
-
       <TextInput
         style={styles.input}
         placeholder="Password"
-        secureTextEntry
         value={password}
         onChangeText={setPassword}
+        secureTextEntry
       />
+      
+      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+        <Text style={styles.loginText}>Log In</Text>
+      </TouchableOpacity>
 
-      <Button title="Sign In" onPress={handleLogin} />
+      {/* Link for Forgot Password */}
+      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+        <Text style={styles.link}>Forgot Password?</Text>
+      </TouchableOpacity>
 
-      <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPassword}>
-        <Text style={styles.forgotPasswordText}>Mot de passe oublié ?</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+        <Text style={styles.link}>Don't have an account? Sign Up</Text>
       </TouchableOpacity>
     </View>
   );
@@ -62,32 +52,46 @@ const Login: React.FC<LoginProps> = ({ onLogin, navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F0F4F8',
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#e4f6fc',
+    borderRadius: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+    fontSize: 28,
+    marginBottom: 24,
     textAlign: 'center',
-    marginBottom: 20,
+    color: '#333',
+    fontWeight: 'bold',
   },
   input: {
     height: 50,
-    borderColor: '#ddd',
+    borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 20,
-    paddingHorizontal: 10,
+    marginBottom: 16,
     backgroundColor: '#fff',
+    paddingLeft: 16,
+    borderRadius: 10,
   },
-  forgotPassword: {
-    marginTop: 15,
-    alignItems: 'center',
+  loginButton: {
+    backgroundColor: '#6C63FF',
+    paddingVertical: 12,
+    marginBottom: 16,
+    borderRadius: 10,
+    width: '80%',
+    alignSelf: 'center',
   },
-  forgotPasswordText: {
-    color: '#900C3F', 
+  loginText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  link: {
+    color: '#6C63FF', // Couleur du lien
+    textAlign: 'center',
     textDecorationLine: 'underline',
+    marginTop: 12,
   },
 });
 
