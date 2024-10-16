@@ -7,5 +7,6 @@
         "réussie",
         "soumission",
         "Veuillez"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }

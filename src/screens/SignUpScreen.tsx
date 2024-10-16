@@ -1,49 +1,37 @@
-// screens/SignUpScreen.tsx
-import React, { useState } from 'react';
-import { View, TextInput, Button, Alert } from 'react-native';
+// src/screens/SignupScreen.tsx
+import React from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-const SignUpScreen: React.FC<{ onSignUp: (email: string, password: string) => void }> = ({ onSignUp }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const handleSubmit = () => {
-    if (!email || !password || !confirmPassword) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs');
-      return;
-    }
-    if (password !== confirmPassword) {
-      Alert.alert('Erreur', 'Les mots de passe ne correspondent pas');
-      return;
-    }
-    onSignUp(email, password);
-  };
-
+const SignupScreen: React.FC = () => {
   return (
-    <View style={{ padding: 16 }}>
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        style={{ marginBottom: 12, borderWidth: 1, borderColor: '#ccc', padding: 8 }}
-      />
-      <TextInput
-        placeholder="Mot de passe"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        style={{ marginBottom: 12, borderWidth: 1, borderColor: '#ccc', padding: 8 }}
-      />
-      <TextInput
-        placeholder="Confirmer le mot de passe"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-        style={{ marginBottom: 12, borderWidth: 1, borderColor: '#ccc', padding: 8 }}
-      />
-      <Button title="S'inscrire" onPress={handleSubmit} />
+    <View style={styles.container}>
+      <Text style={styles.title}>Sign Up</Text>
+      <TextInput placeholder="Email" style={styles.input} />
+      <TextInput placeholder="Password" secureTextEntry style={styles.input} />
+      <Button title="Sign Up" onPress={() => {}} />
     </View>
   );
 };
 
-export default SignUpScreen;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    height: 50,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+});
+
+export default SignupScreen;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert, TouchableOpacity, ActivityIndicator } from 'react-native';
 
-// TypeScript interface pour les props
 interface LoginProps {
   onLogin: (email: string, password: string) => void;
   navigation: any; // Add navigation prop if you're using it for Forgot Password
@@ -10,19 +9,33 @@ interface LoginProps {
 const Login: React.FC<LoginProps> = ({ onLogin, navigation }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false); // Loading state
 
-  // Fonction pour gérer la soumission du formulaire
   const handleLogin = () => {
     if (!email || !password) {
       Alert.alert('Erreur', 'Veuillez entrer un email et un mot de passe.');
       return;
     }
 
-    // Appel à la fonction de connexion
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Erreur', 'Veuillez entrer un email valide.');
+      return;
+    }
+
+    setLoading(true); // Start loading
+    // Call the login function
     onLogin(email, password);
+    // Reset loading state after the login process
+    setLoading(false); 
   };
 
-  // Fonction pour gérer le clic sur le lien "Mot de passe oublié ?"
+  const handleSignup = () => {
+    // Navigate to signup screen
+    navigation.navigate('Signup'); // Ensure 'Signup' matches your navigation route
+  };
+
   const handleForgotPassword = () => {
     Alert.alert('Mot de passe oublié', 'Veuillez contacter le support pour réinitialiser votre mot de passe.');
     // Optionally, you can navigate to a dedicated screen for password recovery
@@ -50,7 +63,15 @@ const Login: React.FC<LoginProps> = ({ onLogin, navigation }) => {
         onChangeText={setPassword}
       />
 
-      <Button title="Sign In" onPress={handleLogin} />
+      {loading ? (
+        <ActivityIndicator size="large" color="#007BFF" />
+      ) : (
+        <Button title="Sign In" onPress={handleLogin} />
+      )}
+
+      <TouchableOpacity onPress={handleSignup} style={styles.signup}>
+        <Text style={styles.signupText}>S'inscrire</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPassword}>
         <Text style={styles.forgotPasswordText}>Mot de passe oublié ?</Text>
@@ -86,7 +107,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   forgotPasswordText: {
-    color: '#900C3F', 
+    color: '#900C3F',
+    textDecorationLine: 'underline',
+  },
+  signup: {
+    marginTop: 15,
+    alignItems: 'center',
+  },
+  signupText: {
+    color: '#007BFF',
     textDecorationLine: 'underline',
   },
 });
