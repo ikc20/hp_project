@@ -19,25 +19,27 @@ const ProfileScreen = ({ navigation }: any) => {
 
       {/* User Profile Picture */}
       <TouchableOpacity style={styles.profilePicture}>
-        <Image 
-          source={{ uri: 'https://example.com/user-profile.jpg' }} // Placeholder URL
-          style={styles.profileImage}
-        />
-        <Text style={styles.initials}>JD</Text>
-      </TouchableOpacity>
+  <Image 
+    source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&w=1080&fit=max' }} // Profile avatar from Unsplash
+    style={styles.profileImage}
+  />
+  <Text style={styles.initials}>MI</Text>
+</TouchableOpacity>
+
+
 
       {/* User Information */}
       <View style={styles.userInfo}>
         <Text style={styles.label}>Name:</Text>
-        <Text style={styles.value}>John Doe</Text>
+        <Text style={styles.value}>Imahrain Mohammed</Text>
       </View>
       <View style={styles.userInfo}>
         <Text style={styles.label}>Email:</Text>
-        <Text style={styles.value}>johndoe@example.com</Text>
+        <Text style={styles.value}>moh_mhr@example.com</Text>
       </View>
       <View style={styles.userInfo}>
         <Text style={styles.label}>Phone:</Text>
-        <Text style={styles.value}>+1234567890</Text>
+        <Text style={styles.value}>+212771532828</Text>
       </View>
 
       {/* Edit Profile Button */}

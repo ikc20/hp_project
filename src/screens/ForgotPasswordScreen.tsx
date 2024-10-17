@@ -1,49 +1,40 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
-import axios from 'axios'; // Assurez-vous d'avoir installé axios
+// ForgotPasswordScreen.tsx
 
-const ForgotPasswordScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+
+const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
   const [email, setEmail] = useState<string>('');
 
-  const handlePasswordReset = async () => {
+  const handleResetPassword = () => {
     if (!email) {
-      Alert.alert('Erreur', 'Veuillez entrer votre adresse email.');
-      return;
-    }
-
-    try {
-      // Remplacez l'URL par celle de votre API
-      await axios.post('http://localhost:3000/reset-password', { email });
-      Alert.alert('Succès', 'Un email de réinitialisation a été envoyé.');
-      navigation.navigate('Login'); // Naviguer vers l'écran de connexion après l'envoi
-    } catch (error) {
-      Alert.alert('Erreur', 'Une erreur est survenue lors de la réinitialisation du mot de passe.');
+      Alert.alert('Error', 'Please enter your email');
+    } else {
+      // Add your password reset logic here (API call, etc.)
+      Alert.alert('Reset Link Sent', 'Check your email to reset your password!');
+      navigation.navigate('Login'); // Navigate back to login after request
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Réinitialiser le mot de passe</Text>
-      
+      <Text style={styles.title}>Reset Password</Text>
+
       <TextInput
-        placeholder="Email"
+        style={styles.input}
+        placeholder="Enter your email"
         value={email}
         onChangeText={setEmail}
-        style={styles.input}
         keyboardType="email-address"
         autoCapitalize="none"
       />
-      
-      <TouchableOpacity style={styles.resetButton} onPress={handlePasswordReset}>
-        <Text style={styles.resetButtonText}>Envoyer</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.link}>Retour à la connexion</Text>
+
+      <TouchableOpacity style={styles.resetButton} onPress={handleResetPassword}>
+        <Text style={styles.resetButtonText}>Send Reset Link</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.link}>Pas encore de compte? S'inscrire</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.backToLoginText}>Back to Login</Text>
       </TouchableOpacity>
     </View>
   );
@@ -52,34 +43,33 @@ const ForgotPasswordScreen: React.FC<{ navigation: any }> = ({ navigation }) => 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F4F8',
     justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
-    borderRadius: 20,
+    backgroundColor: '#F0F4F8',
   },
   title: {
     fontSize: 28,
     marginBottom: 24,
-    textAlign: 'center',
     color: '#333',
     fontWeight: 'bold',
   },
   input: {
+    width: '100%',
     height: 50,
     borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 16,
+    paddingHorizontal: 16,
     backgroundColor: '#fff',
-    paddingLeft: 16,
     borderRadius: 10,
   },
   resetButton: {
-    backgroundColor: '#6C63FF', // Matching login button color
+    backgroundColor: '#6C63FF',
     paddingVertical: 12,
-    marginBottom: 16,
+    width: '100%',
     borderRadius: 10,
-    width: '80%',
-    alignSelf: 'center',
+    marginBottom: 16,
   },
   resetButtonText: {
     color: '#fff',
@@ -87,10 +77,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  link: {
-    color: '#6C63FF', // Matching link color
-    textAlign: 'center',
-    textDecorationLine: 'underline',
+  backToLoginText: {
+    color: '#6C63FF',
+    fontSize: 16,
     marginTop: 12,
   },
 });

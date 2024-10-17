@@ -7,6 +7,7 @@ import SignUp from './screens/SignUpScreen';
 import Home from './screens/HomeScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import Profile from './screens/ProfileScreen';
+import EditProfileScreen from './components/EditProfileScreen'; 
 import 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
@@ -29,6 +30,8 @@ const HomeStack = () => {
       <Stack.Screen name="Login" component={Login} options={{ title: 'Welcome Back' }} />
       <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'Become a member' }} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: 'Reset Password' }} />
+      <Stack.Screen name="Profile" component={Profile} options={{ title: 'Your Profile' }} />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: 'Edit Profile' }} />
     </Stack.Navigator>
   );
 };
@@ -36,12 +39,13 @@ const HomeStack = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
+      <Drawer.Navigator initialRouteName="Login">
         <Drawer.Screen name="Home" component={HomeStack} />
-
-      <Drawer.Screen name="Login" component={Login} options={{ title: 'Log In' }} />
-      <Drawer.Screen name="SignUp" component={SignUp} options={{ title: 'Create Account' }} />
+        <Drawer.Screen name="Login" component={Login} options={{ title: 'Log In' }} />
+        <Drawer.Screen name="SignUp" component={SignUp} options={{ title: 'Create Account' }} />
         <Drawer.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: 'Forgot Password' }} />
+        <Drawer.Screen name="Edit Profile" component={EditProfileScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

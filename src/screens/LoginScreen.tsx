@@ -1,21 +1,25 @@
+// LoginScreen.tsx
+
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
-const Login = ({ navigation }: { navigation: any }) => {
+const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
   const handleLogin = () => {
-    if (email === '' || password === '') {
-      Alert.alert('Error', 'Please fill in both fields');
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password');
     } else {
-      Alert.alert('Success', 'Logged in successfully');
+      // Add your login logic here (API call, etc.)
+      Alert.alert('Login Success', 'You are now logged in!');
+      navigation.navigate('Home'); // Navigate to Home after login success
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back</Text>
+      <Text style={styles.title}>Login</Text>
       
       <TextInput
         style={styles.input}
@@ -25,25 +29,25 @@ const Login = ({ navigation }: { navigation: any }) => {
         keyboardType="email-address"
         autoCapitalize="none"
       />
+      
       <TextInput
         style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
-        secureTextEntry
+        secureTextEntry={true}
       />
       
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginText}>Log In</Text>
-      </TouchableOpacity>
-
-      {/* Link for Forgot Password */}
-      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={styles.link}>Forgot Password?</Text>
+        <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.link}>Don't have an account? Sign Up</Text>
+        <Text style={styles.signUpText}>Don't have an account? Sign Up</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
       </TouchableOpacity>
     </View>
   );
@@ -52,47 +56,50 @@ const Login = ({ navigation }: { navigation: any }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F4F8',
     justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
-    borderRadius: 20,
+    backgroundColor: '#F0F4F8',
   },
   title: {
     fontSize: 28,
     marginBottom: 24,
-    textAlign: 'center',
     color: '#333',
     fontWeight: 'bold',
   },
   input: {
+    width: '100%',
     height: 50,
     borderColor: '#ccc',
     borderWidth: 1,
     marginBottom: 16,
+    paddingHorizontal: 16,
     backgroundColor: '#fff',
-    paddingLeft: 16,
     borderRadius: 10,
   },
   loginButton: {
     backgroundColor: '#6C63FF',
     paddingVertical: 12,
-    marginBottom: 16,
+    width: '100%',
     borderRadius: 10,
-    width: '80%',
-    alignSelf: 'center',
+    marginBottom: 16,
   },
-  loginText: {
+  loginButtonText: {
     color: '#fff',
     textAlign: 'center',
     fontSize: 18,
     fontWeight: 'bold',
   },
-  link: {
-    color: '#6C63FF', // Couleur du lien
-    textAlign: 'center',
-    textDecorationLine: 'underline',
+  signUpText: {
+    color: '#6C63FF',
+    fontSize: 16,
+    marginTop: 12,
+  },
+  forgotPasswordText: {
+    color: '#6C63FF',
+    fontSize: 16,
     marginTop: 12,
   },
 });
 
-export default Login;
+export default LoginScreen;
