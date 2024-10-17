@@ -3,30 +3,29 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-
 interface SignUpProps {
-  navigation: any; // Vous pouvez remplacer 'any' par le type approprié si vous utilisez une bibliothèque de navigation typée
+  navigation: any; // You can replace 'any' with the appropriate type if using a typed navigation library
 }
 
 const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
-  // Définir le schéma de validation avec Yup
+  // Define validation schema with Yup
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Requis'),
-    email: Yup.string().email('Email invalide').required('Requis'),
-    password: Yup.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères').required('Requis'),
+    username: Yup.string().required('Ce champ est requis'),
+    email: Yup.string().email('Adresse e-mail invalide').required('Ce champ est requis'),
+    password: Yup.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères').required('Ce champ est requis'),
     confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), undefined], 'Les mots de passe doivent correspondre') // Changed null to undefined
-      .required('Requis'),
+      .oneOf([Yup.ref('password'), undefined], 'Les mots de passe doivent correspondre')
+      .required('Ce champ est requis'),
   });
 
   const handleSignUp = (values: { username: string; email: string; password: string }) => {
-    Alert.alert('Success', `Registered Successfully`);
+    Alert.alert('Succès', `Inscription réussie pour ${values.username}!`);
     navigation.navigate('Login');
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
+      <Text style={styles.title}>Créer un Compte</Text>
       
       <Formik
         initialValues={{ 
@@ -34,8 +33,6 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
           email: '',
           password: '', 
           confirmPassword: '' }} 
-          
-
         validationSchema={validationSchema}
         onSubmit={handleSignUp}
       >
@@ -43,7 +40,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
           <>
             <TextInput
               style={styles.input}
-              placeholder="Username"
+              placeholder="Nom d'utilisateur"
               onChangeText={handleChange('username')}
               onBlur={handleBlur('username')}
               value={values.username}
@@ -63,7 +60,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
             
             <TextInput
               style={styles.input}
-              placeholder="Password"
+              placeholder="Mot de passe"
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
@@ -73,7 +70,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
             
             <TextInput
               style={styles.input}
-              placeholder="Confirm Password"
+              placeholder="Confirmer le mot de passe"
               onChangeText={handleChange('confirmPassword')}
               onBlur={handleBlur('confirmPassword')}
               value={values.confirmPassword}
@@ -82,11 +79,11 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
             {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
             
             <TouchableOpacity style={styles.signUpButton} onPress={() => handleSubmit()}>
-  <Text style={styles.signUpText}>Sign Up</Text>
-</TouchableOpacity>
+              <Text style={styles.signUpText}>S'inscrire</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.link}>Already have an account? Go to Login</Text>
+              <Text style={styles.link}>Vous avez déjà un compte ? Allez à la connexion</Text>
             </TouchableOpacity>
           </>
         )}
@@ -125,7 +122,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   signUpButton: {
-    backgroundColor: '#6C63FF',
+    backgroundColor: '#DF8B92',
     paddingVertical: 12,
     marginBottom: 16,
     borderRadius: 10,
@@ -143,7 +140,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   link: {
-    color: '#6C63FF',
+    color: '#DF8B92',
     textAlign: 'center',
     textDecorationLine: 'underline',
     marginTop: 12,

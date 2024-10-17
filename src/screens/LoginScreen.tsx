@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   loginButton: {
-    backgroundColor: '#6C63FF',
+    backgroundColor: '#DF8B92',
     paddingVertical: 12,
     width: '100%',
     borderRadius: 10,
@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   signUpText: {
-    color: '#6C63FF',
+    color: '#DF8B92',
     fontSize: 16,
     marginTop: 12,
   },
   forgotPasswordText: {
-    color: '#6C63FF',
+    color: '#DF8B92',
     fontSize: 16,
     marginTop: 12,
   },

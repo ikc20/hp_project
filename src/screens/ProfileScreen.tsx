@@ -31,7 +31,7 @@ const ProfileScreen = ({ navigation }: any) => {
       {/* User Information */}
       <View style={styles.userInfo}>
         <Text style={styles.label}>Name:</Text>
-        <Text style={styles.value}>Imahrain Mohammed</Text>
+        <Text style={styles.value}>New User</Text>
       </View>
       <View style={styles.userInfo}>
         <Text style={styles.label}>Email:</Text>
@@ -46,6 +46,7 @@ const ProfileScreen = ({ navigation }: any) => {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditProfile')}>
         <Text style={styles.buttonText}>Edit Profile</Text>
       </TouchableOpacity>
+      
 
       {/* Logout Button */}
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F0F4F8',
+    backgroundColor: '#F0FF8',
     padding: 20,
   },
   title: {
