@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   resetButton: {
-    backgroundColor: '#6C63FF',
+    backgroundColor: '#dcb2cf',
     paddingVertical: 12,
     width: '100%',
     borderRadius: 10,

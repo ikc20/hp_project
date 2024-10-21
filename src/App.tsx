@@ -11,6 +11,13 @@ import Profile from './screens/ProfileScreen';
 import EditProfileScreen from './components/EditProfileScreen'; 
 import 'react-native-gesture-handler';
 import FlowerCategoriesScreen from './screens/FlowerCategoriesScreen';
+// Import the ContactScreen
+import ContactScreen from './screens/ContactScreen';
+import PerfumeScreen from './screens/PerfumeScreen';
+
+// Inside your Drawer.Navigator
+
+
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -20,7 +27,7 @@ const HomeStack = () => {
     <Stack.Navigator 
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#6C63FF',
+          backgroundColor: '#DF8B92', // Couleur de l'en-tête modifiée
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
@@ -31,9 +38,7 @@ const HomeStack = () => {
       <Stack.Screen name="Home" component={Home} options={{ title: 'Home' }} />
       <Stack.Screen name="Login" component={Login} options={{ title: 'Welcome Back' }} />
       <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'Become a member' }} />
-      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: 'Reset Password' }} />
       <Stack.Screen name="Profile" component={Profile} options={{ title: 'Your Profile' }} />
-      <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{ title: 'Edit Profile' }} />
     </Stack.Navigator>
   );
 };
@@ -49,19 +54,20 @@ const App = () => {
           initialRouteName="Login"
           screenOptions={{
             drawerStyle: {
-              backgroundColor: '#ECCABF', // Changez cette couleur pour personnaliser
-              width: 240, // Largeur de la barre latérale
+              backgroundColor: '#6b3059', // Couleur de fond du Drawer
+              width: 240, 
             },
-            drawerActiveTintColor: '#DF8B92', // Couleur du texte actif
-            drawerInactiveTintColor: '#fff', // Couleur du texte inactif
+            drawerActiveTintColor: '#DF8B92', // Texte actif en rose doux
+            drawerInactiveTintColor: '#fff', // Texte inactif blanc
           }} 
         >
           <Drawer.Screen name="Home" component={HomeStack} />
           <Drawer.Screen name="Login" component={Login} options={{ title: 'Log In' }} />
-          <Drawer.Screen name="SignUp" component={SignUp} options={{ title: 'Create Account' }} />
+          <Drawer.Screen name="SignUp" component={SignUp} options={{ title: 'Sign Up' }} />
           <Drawer.Screen name="Profile" component={Profile} />
-          <Drawer.Screen name="FlowerCategories" component={FlowerCategoriesScreen} options={{ title: 'Flower Categories' }}/>
-          <Drawer.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{ title: 'Forgot Password' }} />
+          <Drawer.Screen name="FlowerCategories" component={FlowerCategoriesScreen} options={{ title: 'Flowers Categories' }}/>
+          <Drawer.Screen name="Contact" component={PerfumeScreen} options={{ title: 'Scents' }} />
+          <Drawer.Screen name="Contact" component={ContactScreen} options={{ title: 'Contact Us' }} />
         </Drawer.Navigator>
       </NavigationContainer>
     </ImageBackground>
@@ -69,10 +75,9 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover',
+    resizeMode: 'cover', // Pour couvrir tout l'écran
   },
 });
 

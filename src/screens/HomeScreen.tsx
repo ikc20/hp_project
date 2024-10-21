@@ -4,31 +4,37 @@ import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react
 const HomeScreen = ({ navigation }: { navigation: any }) => {
   return (
     <ImageBackground 
-      source={require('../assets/f.png')} 
+      source={require('../assets/blue.png')} 
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
         <Text style={styles.title}>Flower</Text>
         <Text style={styles.subtitle}>Welcome to the App!</Text>
 
-        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.openDrawer()}>
-          <Text style={styles.navigationButtonText}>Open Drawer</Text>
+
+      <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('SignUp')}>
+          <Text style={styles.navigationButtonText}>Sign Up</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('Profile')}>
-          <Text style={styles.navigationButtonText}>Go to Profile</Text>
-        </TouchableOpacity>
+
 
         <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.navigationButtonText}>Log In</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.navigationButtonText}>Sign Up</Text>
+
+        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('Profile')}>
+          <Text style={styles.navigationButtonText}>Go to Profile</Text>
         </TouchableOpacity>
+
+
+     
 
         <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('FlowerCategoriesScreen')}>
           <Text style={styles.navigationButtonText}>Selling Flowers</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('ContactScreen')}>
+          <Text style={styles.navigationButtonText} > Contact Us</Text>
         </TouchableOpacity>
       
       </View>
@@ -62,7 +68,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   navigationButton: {
-    backgroundColor: '#6C63FF',
+    backgroundColor: '#DF8B92',
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 10,
