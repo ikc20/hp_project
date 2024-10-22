@@ -11,11 +11,8 @@ import Profile from './screens/ProfileScreen';
 import EditProfileScreen from './components/EditProfileScreen'; 
 import 'react-native-gesture-handler';
 import FlowerCategoriesScreen from './screens/FlowerCategoriesScreen';
-// Import the ContactScreen
-import ContactScreen from './screens/ContactScreen';
 import PerfumeScreen from './screens/PerfumeScreen';
 
-// Inside your Drawer.Navigator
 
 
 
@@ -66,8 +63,7 @@ const App = () => {
           <Drawer.Screen name="SignUp" component={SignUp} options={{ title: 'Sign Up' }} />
           <Drawer.Screen name="Profile" component={Profile} />
           <Drawer.Screen name="FlowerCategories" component={FlowerCategoriesScreen} options={{ title: 'Flowers Categories' }}/>
-          <Drawer.Screen name="Contact" component={PerfumeScreen} options={{ title: 'Scents' }} />
-          <Drawer.Screen name="Contact" component={ContactScreen} options={{ title: 'Contact Us' }} />
+          <Drawer.Screen name="Perfume" component={PerfumeScreen} options={{ title: 'Our Perfumes' }}/>
         </Drawer.Navigator>
       </NavigationContainer>
     </ImageBackground>

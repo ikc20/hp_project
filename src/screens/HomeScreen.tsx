@@ -8,8 +8,8 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Flower</Text>
-        <Text style={styles.subtitle}>Welcome to the App!</Text>
+        <Text style={styles.title}>Flower Shop</Text>
+        <Text style={styles.subtitle}>Welcome to our store!</Text>
 
 
       <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('SignUp')}>
