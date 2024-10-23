@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { SearchBar } from 'react-native-elements';  // Import de la SearchBar
 
 interface Perfume {
   id: string;
@@ -12,126 +13,38 @@ interface Perfume {
 }
 
 const perfumes: Perfume[] = [
-  { 
-    id: '1', 
-    name: 'La Belle', 
-    price: '$150', 
-    image: require('../assets/perfumes/her.png'), 
-    gender: 'female', 
-    description: 'A sweet floral fragrance.' 
-  },
-  { 
-    id: '2', 
-    name: 'Lost Cherry', 
-    price: '$260', 
-    image: require('../assets/perfumes/image2.png'), 
-    gender: 'unisex', 
-    description: 'A fruity and floral scent.' 
-  },
-  { 
-    id: '3', 
-    name: 'Paradoxe Prada', 
-    price: '$450', 
-    image: require('../assets/perfumes/image3.png'), 
-    gender: 'female', 
-    description: 'A modern and sophisticated fragrance.' 
-  },
-  { 
-    id: '4', 
-    name: 'Black Opium', 
-    price: '$550', 
-    image: require('../assets/perfumes/bo.png'), 
-    gender: 'female', 
-    description: 'A warm and spicy scent.' 
-  },
-  { 
-    id: '5', 
-    name: 'Kirk', 
-    price: '$90', 
-    image: require('../assets/perfumes/kirk.png'), 
-    gender: 'male', 
-    description: 'Kirk de Mirko Buffini Firenze est un parfum boisé épicé pour homme.' 
-  },
-  { 
-    id: '6', 
-    name: 'Sauvage', 
-    price: '$85', 
-    image: require('../assets/perfumes/sauvage.png'), 
-    gender: 'male', 
-    description: 'La bergamote de Calabre, signature vive et juteuse de Sauvage.' 
-  },
-  { 
-    id: '7', 
-    name: 'Born in Roma', 
-    price: '$160', 
-    image: {uri :'https://daisy.ma/wp-content/uploads/2023/07/valentino-donna-born-in-roma-intense-eau-de-parfum-skin-society-shop-address-country-2.webp'},  
-    gender: 'female',  
-    description: 'For the elegant.'  
-  },
-  // Additional perfumes with real images
-  { 
-    id: '8', 
-    name: 'Chanel No. 5',  
-    price: '$300',  
-    image: { uri: 'https://mojezapachy.pl/7435-large_default/chanel-no5-l-eau-red-edition-woda-toaletowa-100ml.jpg' },  
-    gender: 'female',  
-    description: 'A timeless classic with floral notes.'  
-  },
-  {  
-    id: '9',  
-    name: 'Dior Homme Intense',  
-    price: '$150',  
-    image: { uri: 'https://kosmenia.ma/cdn/shop/files/dior_homme_eau_de_parfum_intense_P_2048x.jpg?v=1710947007' },  
-    gender: 'male',  
-    description: 'A rich and woody fragrance for men.'  
-  },
-  {  
-    id: '10',  
-    name: 'Yves Saint Laurent Libre',  
-    price: '$130',  
-    image:{ uri:'https://www.fatin.ma/wp-content/uploads/2023/05/ysl_libre_le_parfum_1.jpg'},  
-     gender:'female',
-     description:'A bold and floral scent with a hint of lavender.'
-   },
-   {  
-     id:'11',
-     name:'Tom Ford Black Orchid',
-     price:'$180',
-     image:{uri:'https://www.lamode.tn/55867-large_default/eau-de-toilette-unisexe-tom-ford-tom-ford-black-orchid.webp'},
-     gender:'unisex',
-     description:'An opulent and dark fragrance with rich notes.'
-   },
-   {  
-     id:'12',
-     name:'Marc Jacobs Daisy',
-     price:'$95',
-     image:{uri:'https://daisy.ma/wp-content/uploads/2024/03/marc-jacobs-ladies-perfect-intense-edp-spray-34-oz-fragrances-3616302779994-2.jpg'},
-     gender:'female',
-     description:'A fresh and fruity floral scent perfect for everyday wear.'
-   },
-
-   {
-
-    id:'13',
-    name:'JEAN PAUL GAULTIER - Le Male',
-    price:'$88',
-    image:{uri:'https://kosmenia.ma/cdn/shop/files/jean_paul-gaultier_le_male_elixir_p1_2048x.jpg?v=1703184975'},
-    gender:'male',
-    description:'aites monter la température pendant les festivités avec le coffret Le Mâle Eau de toilette',
-
-   },
+  { id: '1', name: 'La Belle', price: '$150', image: require('../assets/perfumes/her.png'), gender: 'female', description: 'A sweet floral fragrance.' },
+  { id: '2', name: 'Lost Cherry', price: '$260', image: require('../assets/perfumes/image2.png'), gender: 'unisex', description: 'A fruity and floral scent.' },
+  { id: '3', name: 'Paradoxe Prada', price: '$450', image: require('../assets/perfumes/image3.png'), gender: 'female', description: 'A modern and sophisticated fragrance.' },
+  { id: '4', name: 'Black Opium', price: '$550', image: require('../assets/perfumes/bo.png'), gender: 'female', description: 'A warm and spicy scent.' },
+  { id: '5', name: 'Kirk', price: '$90', image: require('../assets/perfumes/kirk.png'), gender: 'male', description: 'Kirk de Mirko Buffini Firenze est un parfum boisé épicé pour homme.' },
+  { id: '6', name: 'Sauvage', price: '$85', image: require('../assets/perfumes/sauvage.png'), gender: 'male', description: 'La bergamote de Calabre, signature vive et juteuse de Sauvage.' },
+  { id: '7', name: 'Born in Roma', price: '$160', image: {uri :'https://daisy.ma/wp-content/uploads/2023/07/valentino-donna-born-in-roma-intense-eau-de-parfum-skin-society-shop-address-country-2.webp'},  gender: 'female',  description: 'For the elegant.' },
+  { id: '8', name: 'Chanel No. 5',  price: '$300',  image: { uri: 'https://mojezapachy.pl/7435-large_default/chanel-no5-l-eau-red-edition-woda-toaletowa-100ml.jpg' },  gender: 'female',  description: 'A timeless classic with floral notes.' },
+  { id: '9', name: 'Dior Homme Intense', price: '$150', image: { uri: 'https://kosmenia.ma/cdn/shop/files/dior_homme_eau_de_parfum_intense_P_2048x.jpg?v=1710947007' }, gender: 'male', description: 'A rich and woody fragrance for men.' },
+  { id: '10', name: 'Yves Saint Laurent Libre', price: '$130', image:{ uri:'https://www.fatin.ma/wp-content/uploads/2023/05/ysl_libre_le_parfum_1.jpg'},  gender:'female', description:'A bold and floral scent with a hint of lavender.' },
+  { id:'11', name:'Tom Ford Black Orchid', price:'$180', image:{uri:'https://www.lamode.tn/55867-large_default/eau-de-toilette-unisexe-tom-ford-tom-ford-black-orchid.webp'}, gender:'unisex', description:'An opulent and dark fragrance with rich notes.' },
+  { id:'12', name:'Marc Jacobs Daisy', price:'$95', image:{uri:'https://daisy.ma/wp-content/uploads/2024/03/marc-jacobs-ladies-perfect-intense-edp-spray-34-oz-fragrances-3616302779994-2.jpg'}, gender:'female', description:'A fresh and fruity floral scent perfect for everyday wear.' },
+  { id:'13', name:'JEAN PAUL GAULTIER - Le Male', price:'$88', image:{uri:'https://kosmenia.ma/cdn/shop/files/jean_paul-gaultier_le_male_elixir_p1_2048x.jpg?v=1703184975'}, gender:'male', description:'aites monter la température pendant les festivités avec le coffret Le Mâle Eau de toilette' },
 ];
 
 const PerfumeScreen = () => {
   const [genderFilter, setGenderFilter] = useState<string>('All');
   const [cart, setCart] = useState<Perfume[]>([]);
+  const [search, setSearch] = useState<string>('');  // État pour la barre de recherche
 
+  // Fonction pour mettre à jour la recherche
+  const updateSearch = (text: string) => {
+    setSearch(text);
+  };
+
+  // Filtrer les parfums en fonction du genre et de la recherche
   const filteredPerfumes = perfumes.filter(perfume => 
-    genderFilter === 'All' || perfume.gender === genderFilter.toLowerCase()
+    (genderFilter === 'All' || perfume.gender === genderFilter.toLowerCase()) &&
+    perfume.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const addToCart = (perfume: Perfume) => {
-    // Check if the item is already in the cart
     if (!cart.some(item => item.id === perfume.id)) {
       setCart([...cart, perfume]);
       Alert.alert('Added to Cart', `${perfume.name} has been added to your cart.`);
@@ -161,6 +74,18 @@ const PerfumeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}></Text>
+
+      {/* Barre de recherche */}
+      <SearchBar
+        placeholder="Search for perfumes..."
+        onChangeText={updateSearch}
+        value={search}
+        lightTheme
+        round
+        containerStyle={styles.searchContainer}
+        inputContainerStyle={styles.searchInputContainer}
+      />
+
       <View style={styles.filterContainer}>
         {['All', 'Female', 'Male', 'Unisex'].map(gender => (
           <TouchableOpacity 
@@ -172,6 +97,7 @@ const PerfumeScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
+      
       <FlatList
         data={filteredPerfumes}
         renderItem={renderItem}
@@ -195,6 +121,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 0,
     color: '#333',
+  },
+  searchContainer: {
+    backgroundColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
+    paddingHorizontal: 0,
+    marginBottom: 15,
+  },
+  searchInputContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
   },
   filterContainer: {
     flexDirection: 'row',

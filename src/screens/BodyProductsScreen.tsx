@@ -1,33 +1,41 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { SearchBar } from 'react-native-elements';  // Import de la SearchBar
 
 interface BodyProduct {
   id: string;
   name: string;
   price: string;
   image: any;
-  
 }
 
 const bodyProducts: BodyProduct[] = [
-    
   { id: '1', name: 'Aloe Vera Body Pack', price: '$25', image: { uri: 'https://cdn.notinoimg.com/detail_main_lq/sol_de_janeiro/810912034730_01-o/sol-de-janeiro-bom-dia-jet-set-travel-set-for-the-body-for-women___240624.jpg' }},
-  { id: '2', name: 'Coconut Hydration Pack', price: '$20', image: { uri: 'https://palmarya.ma/images/demo/shop/Sol%20De%20Janeiro/SOL%20DE%20JANEIRO%20BEIJA%20FLOR%20JET%20SET/SOL%20DE%20JANEIRO%20BEIJA%20FLOR%20JET%20SET.jpg' } },
+  { id: '2', name: 'Coconut Hydration Pack', price: '$20', image: { uri: 'https://palmarya.ma/images/demo/shop/Sol%20De%20Janeiro/SOL%20DE%20JANEIRO%20BEIJA%20FLOR%20JET%20SET/SOL%20DE%20JANEIRO%20BEIJA%20FLOR%20JET%20SET.jpg' }},
   { id: '3', name: 'Lavender Relaxation Pack', price: '$30', image: require('../assets/bpack/image3.png') },
   { id: '4', name: 'Exotic Mango Pack', price: '$28', image: require('../assets/bpack/image4.png')},
   { id: '5', name: 'Cheirosa 40 Family', price: '$35', image: { uri: 'https://static.thcdn.com/images/small/webp/widgets/95-en/35/original-cheirosa40-010035.png' }},
   { id: '6', name: 'Cheirosa 68 Family', price: '$34', image: { uri: 'https://static.thcdn.com/images/small/webp/widgets/95-en/29/original-cheirosa68-010029.png' }},
   { id: '7', name: 'Cheirosa 62 Family', price: '$33', image: { uri: 'https://static.thcdn.com/images/small/webp/widgets/95-en/03/original-cheirosa62-010003.png' }},
   { id: '8', name:'Rio Body Trio - Set crèmes corporelles', price:'$36', image :{ uri: 'https://www.spacenk.com/on/demandware.static/-/Sites-spacenkmastercatalog/default/dw9b69cf34/products/SOL_DE_JAN/UK200050800_SOL_DE_JAN.jpg'}},
-  { id: '9', name:'Brazilian Crush Cheirosa 59',  price:'$26.00', image:{uri :'https://m.media-amazon.com/images/I/51KMT4TPJVL._SL1200_.jpg'}},
+  { id: '9', name:'Brazilian Crush Cheirosa 59', price:'$26.00', image:{uri :'https://m.media-amazon.com/images/I/51KMT4TPJVL._SL1200_.jpg'}},
 ];
 
 const BodyProductsScreen = () => {
   const [cart, setCart] = useState<BodyProduct[]>([]);
+  const [search, setSearch] = useState<string>('');  // État pour la barre de recherche
+
+  const updateSearch = (text: string) => {
+    setSearch(text);
+  };
+
+  // Filtrer les produits en fonction de la recherche
+  const filteredProducts = bodyProducts.filter(product => 
+    product.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   const addToCart = (product: BodyProduct) => {
-    // Check if the item is already in the cart
     if (!cart.some(item => item.id === product.id)) {
       setCart([...cart, product]);
       Alert.alert('Added to Cart', `${product.name} has been added to your cart.`);
@@ -42,9 +50,14 @@ const BodyProductsScreen = () => {
       <View style={styles.details}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.price}>{item.price}</Text>
-        <TouchableOpacity onPress={() => addToCart(item)} accessibilityLabel={`Add ${item.name} to cart`}>
-          <Icon name="add-shopping-cart" size={24} color="#4CAF50" />
-        </TouchableOpacity>
+        <View style={styles.iconsContainer}>
+          <TouchableOpacity onPress={() => addToCart(item)} accessibilityLabel={`Add ${item.name} to cart`}>
+            <Icon name="add-shopping-cart" size={24} color="#4CAF50" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => Alert.alert('Favorite', `${item.name} added to favorites`)} accessibilityLabel={`Add ${item.name} to favorites`}>
+            <Icon name="favorite-border" size={24} color="#E74C3C" />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -52,8 +65,20 @@ const BodyProductsScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Body Product Packs</Text>
+
+      {/* Barre de recherche */}
+      <SearchBar
+        placeholder="Search for products..."
+        onChangeText={updateSearch}
+        value={search}
+        lightTheme
+        round
+        containerStyle={styles.searchContainer}
+        inputContainerStyle={styles.searchInputContainer}
+      />
+
       <FlatList
-        data={bodyProducts}
+        data={filteredProducts}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         numColumns={2}
@@ -75,6 +100,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 20,
     color: '#333',
+  },
+  searchContainer: {
+    backgroundColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderTopColor: 'transparent',
+    paddingHorizontal: 0,
+    marginBottom: 15,
+  },
+  searchInputContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
   },
   row: {
     justifyContent: 'space-between',
@@ -110,11 +146,10 @@ const styles = StyleSheet.create({
     color: '#E74C3C',
     marginVertical: 8,
   },
-  description:{
-      fontSize :14,
-      color:'#666',
-      marginBottom :8
-   }
+  iconsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });
 
 export default BodyProductsScreen;
