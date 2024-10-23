@@ -1,7 +1,7 @@
 import React from 'react';
 import { ImageBackground, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Login from './screens/LoginScreen';
 import SignUp from './screens/SignUpScreen';
@@ -9,14 +9,27 @@ import Home from './screens/HomeScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import Profile from './screens/ProfileScreen';
 import EditProfileScreen from './components/EditProfileScreen'; 
-import 'react-native-gesture-handler';
 import FlowerCategoriesScreen from './screens/FlowerCategoriesScreen';
 import PerfumeScreen from './screens/PerfumeScreen';
+import HomePerfume from './screens/HomePerfume'; // Import HomePerfume page
+import 'react-native-gesture-handler';
+import BodyProductsScreen from './screens/BodyProductsScreen';
 
+// Déclarez les types de la navigation
+type RootStackParamList = {
+  Home: undefined;
+  Login: undefined;
+  SignUp: undefined;
+  Profile: undefined;
+  ForgotPasswordScreen: undefined;
+  EditProfileScreen: undefined;
+  FlowerCategoriesScreen: undefined;
+  PerfumeScreen: undefined;
+  HomePerfume: undefined;
+};
 
-
-
-const Stack = createStackNavigator();
+// Déclaration du Stack Navigator et du Drawer Navigator avec les types
+const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
 
 const HomeStack = () => {
@@ -36,6 +49,8 @@ const HomeStack = () => {
       <Stack.Screen name="Login" component={Login} options={{ title: 'Welcome Back' }} />
       <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'Become a member' }} />
       <Stack.Screen name="Profile" component={Profile} options={{ title: 'Your Profile' }} />
+      <Stack.Screen name="HomePerfume" component={HomePerfume} options={{ title: 'Discover Perfumes' }} />
+      <Stack.Screen name="PerfumeScreen" component={PerfumeScreen} options={{ title: 'Our Perfumes' }} />
     </Stack.Navigator>
   );
 };
@@ -63,7 +78,10 @@ const App = () => {
           <Drawer.Screen name="SignUp" component={SignUp} options={{ title: 'Sign Up' }} />
           <Drawer.Screen name="Profile" component={Profile} />
           <Drawer.Screen name="FlowerCategories" component={FlowerCategoriesScreen} options={{ title: 'Flowers Categories' }}/>
-          <Drawer.Screen name="Perfume" component={PerfumeScreen} options={{ title: 'Our Perfumes' }}/>
+          <Drawer.Screen name="HomePerfume" component={HomePerfume} options={{ title: 'Promotions' }}/> 
+          <Drawer.Screen name="Perfume" component={PerfumeScreen} options={{ title: 'Our Collection' }}/>
+          <Drawer.Screen name="Body-Pack" component={BodyProductsScreen} options={{ title: 'Our Special Packs' }}/>
+
         </Drawer.Navigator>
       </NavigationContainer>
     </ImageBackground>

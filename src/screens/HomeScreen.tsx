@@ -8,35 +8,28 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
       style={styles.backgroundImage}
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Flower Shop</Text>
-        <Text style={styles.subtitle}>Welcome to our store!</Text>
+        <Text style={styles.title}>Welcome to Our Store!</Text>
+        <Text style={styles.subtitle}>Your one-stop shop for beautiful flowers and perfumes</Text>
 
-
-      <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('SignUp')}>
-          <Text style={styles.navigationButtonText}>Sign Up</Text>
+        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('SignUp')}>
+          <Text style={styles.navigationButtonText}>Create an Account</Text>
         </TouchableOpacity>
-
-
 
         <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.navigationButtonText}>Log In</Text>
         </TouchableOpacity>
 
-
-        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('Profile')}>
-          <Text style={styles.navigationButtonText}>Go to Profile</Text>
+        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('HomePerfume')}>
+          <Text style={styles.navigationButtonText}>Promo Of The Week</Text>
         </TouchableOpacity>
-
-
-     
 
         <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('FlowerCategoriesScreen')}>
-          <Text style={styles.navigationButtonText}>Selling Flowers</Text>
+          <Text style={styles.navigationButtonText}>Shop Flowers</Text>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('ContactScreen')}>
-          <Text style={styles.navigationButtonText} > Contact Us</Text>
+          <Text style={styles.navigationButtonText}>Contact Us</Text>
         </TouchableOpacity>
-      
       </View>
     </ImageBackground>
   );
