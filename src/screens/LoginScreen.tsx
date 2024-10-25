@@ -2,10 +2,14 @@
 
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { CheckBox } from 'react-native-elements'
+
 
 const LoginScreen = ({ navigation }: { navigation: any }) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [savePassword, setSavePassword] = useState<boolean>(false);
+  const [keepLoggedIn, setKeepLoggedIn] = useState<boolean>(false);
 
   const handleLogin = () => {
     if (!email || !password) {
@@ -37,6 +41,7 @@ const LoginScreen = ({ navigation }: { navigation: any }) => {
         onChangeText={setPassword}
         secureTextEntry={true}
       />
+      
       
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>Login</Text>

@@ -20,8 +20,10 @@ const PROMO_PERFUMES = [
     name: 'LA BELLE',
     brand: 'By Jean Paul Gaultier',
     price: '$120.00',
-    image: require('../assets/perfumes/image.png'), // Ensure this path is correct
+    image: require('../assets/perfumes/her.png'), // Ensure this path is correct
   },
+  { id: '6', name: 'Cheirosa 68 Family', price: '$29.00', rating: 4, image: { uri: 'https://static.thcdn.com/images/small/webp/widgets/95-en/29/original-cheirosa68-010029.png' }},
+
   {
     id: '3',
     name: 'LOST CHERRY',
@@ -29,16 +31,12 @@ const PROMO_PERFUMES = [
     price: '$200.00',
     image: require('../assets/perfumes/image2.png'), // Ensure this path is correct
   },
-  {
-    id: '8', 
-    name: 'Rio Body Trio - Set crèmes corporelles', 
-    price: '$36.00', 
-    image: { uri: 'https://www.spacenk.com/on/demandware.static/-/Sites-spacenkmastercatalog/default/dw9b69cf34/products/SOL_DE_JAN/UK200050800_SOL_DE_JAN.jpg' },
-  },
+  { id: '9', name: 'Sol De Janeiro - Rio Radiance Body Spray SPF50', price: '$36.00', rating: 4.5, image: { uri: 'https://bogart-april-be-storage.omn.proximis.com/Imagestorage/imagesSynchro/600/600/b3880a157b908f6a067c8690b2e8385c8e85028f_3ade6ea1-e896-4b16-b9ea-front.jpeg' }},
+
 ];
 
 const PromoScreen = () => {
-  const handleBuyPress = (itemName) => {
+  const handleBuyPress = (itemName: any) => {
     Alert.alert('Purchase Confirmation', `You have selected ${itemName} for purchase.`);
   };
 

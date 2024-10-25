@@ -9,7 +9,6 @@ import Home from './screens/HomeScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import Profile from './screens/ProfileScreen';
 import EditProfileScreen from './components/EditProfileScreen'; 
-import FlowerCategoriesScreen from './screens/FlowerCategoriesScreen';
 import PerfumeScreen from './screens/PerfumeScreen';
 import HomePerfume from './screens/HomePerfume'; // Import HomePerfume page
 import 'react-native-gesture-handler';
@@ -77,7 +76,6 @@ const App = () => {
           <Drawer.Screen name="Login" component={Login} options={{ title: 'Log In' }} />
           <Drawer.Screen name="SignUp" component={SignUp} options={{ title: 'Sign Up' }} />
           <Drawer.Screen name="Profile" component={Profile} />
-          <Drawer.Screen name="FlowerCategories" component={FlowerCategoriesScreen} options={{ title: 'Flowers Categories' }}/>
           <Drawer.Screen name="HomePerfume" component={HomePerfume} options={{ title: 'Promotions' }}/> 
           <Drawer.Screen name="Perfume" component={PerfumeScreen} options={{ title: 'Our Collection' }}/>
           <Drawer.Screen name="Body-Pack" component={BodyProductsScreen} options={{ title: 'Our Special Packs' }}/>
