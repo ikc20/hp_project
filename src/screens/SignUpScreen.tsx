@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Formik } from 'formik';
+import RNPickerSelect from 'react-native-picker-select';
 import * as Yup from 'yup';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 interface SignUpProps {
-  navigation: any; // You can replace 'any' with the appropriate type if using a typed navigation library
+  navigation: StackNavigationProp<RootStackParamList, 'SignUp'>;
 }
 
 const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
-  // Define validation schema with Yup
   const validationSchema = Yup.object().shape({
     username: Yup.string().required('Ce champ est requis'),
     email: Yup.string().email('Adresse e-mail invalide').required('Ce champ est requis'),
@@ -16,10 +17,11 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), undefined], 'Les mots de passe doivent correspondre')
       .required('Ce champ est requis'),
+    country: Yup.string().required('Sélectionnez un pays'),
   });
 
-  const handleSignUp = (values: { username: string; email: string; password: string }) => {
-    Alert.alert('Succès', `Inscription réussie pour ${values.username}!`);
+  const handleSignUp = (values: { username: string; email: string; password: string; confirmPassword: string; country: string }) => {
+    Alert.alert('Succès', `Inscription réussie pour ${values.username} de ${values.country}!`);
     navigation.navigate('Login');
   };
 
@@ -28,11 +30,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
       <Text style={styles.title}>Créer un Compte</Text>
       
       <Formik
-        initialValues={{ 
-          username: '',
-          email: '',
-          password: '', 
-          confirmPassword: '' }} 
+        initialValues={{ username: '', email: '', password: '', confirmPassword: '', country: '' }}
         validationSchema={validationSchema}
         onSubmit={handleSignUp}
       >
@@ -44,9 +42,10 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
               onChangeText={handleChange('username')}
               onBlur={handleBlur('username')}
               value={values.username}
+              placeholderTextColor="#aaa" // Couleur du texte du placeholder
             />
             {errors.username && <Text style={styles.error}>{errors.username}</Text>}
-            
+
             <TextInput
               style={styles.input}
               placeholder="Email"
@@ -55,9 +54,47 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
               value={values.email}
               keyboardType="email-address"
               autoCapitalize="none"
+              placeholderTextColor="#aaa" // Couleur du texte du placeholder
             />
             {errors.email && <Text style={styles.error}>{errors.email}</Text>}
-            
+
+            <RNPickerSelect
+              onValueChange={handleChange('country')}
+              placeholder={{ label: 'Sélectionnez un pays', value: '' }}
+              items={[
+                { label: 'France', value: 'France' },
+                { label: 'Canada', value: 'Canada' },
+                { label: 'United States', value: 'United States' },
+                { label: 'Morocco', value: 'Morocco' },
+                { label: 'Brazil', value: 'Brazil' },
+                { label: 'Germany', value: 'Germany' },
+                { label: 'Australia', value: 'Australia' },
+                { label: 'India', value: 'India' },
+                { label: 'Japan', value: 'Japan' },
+                { label: 'Mexico', value: 'Mexico' },
+                { label: 'Italy', value: 'Italy' },
+                { label: 'Spain', value: 'Spain' },
+                { label: 'South Africa', value: 'South Africa' },
+                { label: 'Russia', value: 'Russia' },
+                { label: 'Argentina', value: 'Argentina' },
+                { label: 'Netherlands', value: 'Netherlands' },
+                { label: 'Sweden', value: 'Sweden' },
+                { label: 'Switzerland', value: 'Switzerland' },
+                { label: 'Belgium', value: 'Belgium' },
+                { label: 'China', value: 'China' },
+              ]}
+              
+              style={{
+                inputAndroid: styles.input,
+                inputIOS: styles.input,
+                iconContainer:{
+                  top:'12%',
+                  right:'2%',
+                }
+              }}
+            />
+            {errors.country && <Text style={styles.error}>{errors.country}</Text>}
+
             <TextInput
               style={styles.input}
               placeholder="Mot de passe"
@@ -65,9 +102,10 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
               onBlur={handleBlur('password')}
               value={values.password}
               secureTextEntry
+              placeholderTextColor="#aaa" // Couleur du texte du placeholder
             />
             {errors.password && <Text style={styles.error}>{errors.password}</Text>}
-            
+
             <TextInput
               style={styles.input}
               placeholder="Confirmer le mot de passe"
@@ -75,10 +113,11 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
               onBlur={handleBlur('confirmPassword')}
               value={values.confirmPassword}
               secureTextEntry
+              placeholderTextColor="#aaa" // Couleur du texte du placeholder
             />
             {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
-            
-            <TouchableOpacity style={styles.signUpButton} onPress={() => handleSubmit()}>
+
+            <TouchableOpacity style={styles.signUpButton} onPress={handleSubmit}>
               <Text style={styles.signUpText}>S'inscrire</Text>
             </TouchableOpacity>
 
@@ -88,7 +127,6 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
           </>
         )}
       </Formik>
-
     </View>
   );
 };
@@ -98,57 +136,58 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F0F4F8',
     justifyContent: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 40,
     borderRadius: 20,
   },
   title: {
     fontSize: 28,
     marginBottom: 24,
     textAlign: 'center',
-    color: '#333',
-    fontWeight: 'bold',
+    color:'#333',
+    fontWeight:'bold',
   },
-  input: {
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 16,
-    backgroundColor: '#fff',
-    paddingLeft: 16,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 2,
+  input:{
+    height : 50,
+    borderColor:'#ccc',
+    borderWidth : 1,
+    marginBottom : 16,
+    backgroundColor:'#fff',
+    paddingLeft :16,
+    borderRadius :10,
+    shadowColor:'#000',
+    shadowOpacity :0.1,
+    shadowRadius :5,
+    elevation :2,
   },
-  signUpButton: {
-    backgroundColor: '#DF8B92',
-    paddingVertical: 12,
-    marginBottom: 16,
-    borderRadius: 10,
-    width: '80%',
-    alignSelf: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
-    elevation: 3,
+  signUpButton:{
+    backgroundColor:'#DF8B92',
+    paddingVertical :12,
+    marginBottom :16,
+    borderRadius :10,
+    width:'80%',
+    alignSelf:'center',
+    shadowColor:'#000',
+    shadowOpacity :0.2,
+    shadowRadius :5,
+    elevation :3,
   },
-  signUpText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
+  signUpText:{
+    color:'#fff',
+    textAlign:'center',
+    fontSize :18,
+    fontWeight :'bold',
   },
-  link: {
-    color: '#DF8B92',
-    textAlign: 'center',
-    textDecorationLine: 'underline',
-    marginTop: 12,
-  },
-  error: {
-    color: 'red',
-    marginBottom: 8,
-  },
+  link:{
+     color:'#DF8B92',
+     textAlign:'center',
+     textDecorationLine:'underline',
+     marginTop:'12',
+   },
+   error:{
+     color:'red',
+     marginBottom:'8'
+   }
 });
 
 export default SignUp;

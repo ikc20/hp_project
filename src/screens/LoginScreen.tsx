@@ -1,110 +1,167 @@
-// LoginScreen.tsx
-
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { CheckBox } from 'react-native-elements'
+import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-
-const LoginScreen = ({ navigation }: { navigation: any }) => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [savePassword, setSavePassword] = useState<boolean>(false);
-  const [keepLoggedIn, setKeepLoggedIn] = useState<boolean>(false);
-
-  const handleLogin = () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password');
-    } else {
-      // Add your login logic here (API call, etc.)
-      Alert.alert('Login Success', 'You are now logged in!');
-      navigation.navigate('Home'); // Navigate to Home after login success
-    }
-  };
+export default function Login({ navigation }) {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-      />
-      
-      
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
+      <KeyboardAwareScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Image
+            alt="App Logo"
+            resizeMode="contain"
+            style={styles.headerImg}
+            source={{ uri: 'https://i.pinimg.com/564x/0d/ba/0f/0dba0f58167eb0b79dddf50aab0d4839.jpg' }} 
+          />
+          <Text style={styles.title}>Connectez-vous</Text>
+          <Text style={styles.subtitle}>Accédez à votre compte et plus</Text>
+        </View>
 
+        <View style={styles.form}>
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>E-mail</Text>
+            <TextInput
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              keyboardType="email-address"
+              onChangeText={email => setForm({ ...form, email })}
+              placeholder="john@example.com"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              value={form.email}
+            />
+          </View>
+
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Password</Text>
+            <TextInput
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={password => setForm({ ...form, password })}
+              placeholder="********"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              secureTextEntry={true}
+              value={form.password}
+            />
+          </View>
+
+          <View style={styles.formAction}>
+            <TouchableOpacity onPress={() => Alert.alert('Login pressed')}>
+              <View style={styles.btn}>
+                <Text style={styles.btnText}>Log In</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          {/* Lien vers la page de réinitialisation du mot de passe */}
+          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+            <Text style={styles.forgotPasswordText}>Mot de passe oublié?</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAwareScrollView>
+
+      {/* Lien vers la page d'inscription */}
       <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.signUpText}>Don't have an account? Sign Up</Text>
+        <Text style={styles.formFooter}>
+          Vous n’avez pas de compte?{' '}
+          <Text style={{ textDecorationLine: 'underline', color: '#DF8B92' }}>S'inscrire</Text>
+        </Text>
       </TouchableOpacity>
-
-      <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#F0F4F8',
+    paddingVertical: 24,
+    flexGrow: 1,
   },
   title: {
-    fontSize: 28,
+    fontSize: 31,
+    fontWeight: '700',
+    color: '#1D2A32',
+    marginBottom: 6,
+  },
+  subtitle: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#929292',
+  },
+  header: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 36,
+  },
+  headerImg: {
+    width: 100,
+    height: 100,
+    alignSelf: 'center',
+    marginBottom: 36,
+  },
+  form: {
     marginBottom: 24,
-    color: '#333',
-    fontWeight: 'bold',
+    paddingHorizontal: 24,
+    flexGrow: 1,
   },
-  input: {
-    width: '100%',
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
+  formAction: {
+    marginTop: 4,
     marginBottom: 16,
-    paddingHorizontal: 16,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-  },
-  loginButton: {
-    backgroundColor: '#DF8B92',
-    paddingVertical: 12,
-    width: '100%',
-    borderRadius: 10,
-    marginBottom: 16,
-  },
-  loginButtonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  signUpText: {
-    color: '#DF8B92',
-    fontSize: 16,
-    marginTop: 12,
   },
   forgotPasswordText: {
-    color: '#DF8B92',
     fontSize: 16,
-    marginTop: 12,
+    fontWeight: '600',
+    color: '#075eec', // Couleur du texte pour le lien
+    textAlign: 'center',
+    marginTop: 10, // Ajout d'un espace au-dessus
   },
+  formFooter: {
+    paddingVertical: 24,
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#222',
+    textAlign: 'center',
+    letterSpacing: 0.15,
+  },
+  input: {
+    marginBottom: 16,
+  },
+  inputLabel: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#222',
+    marginBottom: 8,
+  },
+  inputControl: {
+    height: 50,
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#222',
+    borderWidth: 1,
+   borderColor:'#C9D3DB',
+   },
+   btn:{
+     flexDirection:'row',
+     alignItems:'center',
+     justifyContent:'center',
+     borderRadius :30,
+     paddingVertical :10,
+     paddingHorizontal :20,
+     backgroundColor:'#DF8B92', // Couleur du bouton
+   },
+   btnText:{
+     fontSize :18,
+     lineHeight :26,
+     fontWeight :'600',
+     color :'#fff'
+   }
 });
-
-export default LoginScreen;

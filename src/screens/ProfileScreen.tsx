@@ -1,56 +1,80 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, Image } from 'react-native';
 
-const ProfileScreen = ({ navigation }: any) => {
+const ProfileScreen = ({ navigation }) => {
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
   const handleLogout = () => {
     Alert.alert(
-      "Logout",
-      "Are you sure you want to logout?",
+      "Déconnexion",
+      "Êtes-vous sûr de vouloir vous déconnecter ?",
       [
-        { text: "Cancel", style: "cancel" },
-        { text: "OK", onPress: () => console.log('Logout') }
-      ]
+        { text: "Annuler", style: "cancel" },
+        { text: "OK", onPress: () => {
+            console.log('Utilisateur déconnecté');
+            navigation.navigate('LoginScreen'); // Redirection vers la page de connexion
+          }
+        }
+      ],
+      { cancelable: true }
     );
   };
 
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme);
+  };
+
+  const handleChangePassword = () => {
+    Alert.alert("Changer le mot de passe", "Fonctionnalité à implémenter.");
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Profile</Text>
-
-      {/* User Profile Picture */}
-      <TouchableOpacity style={styles.profilePicture}>
-  <Image 
-    source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&w=1080&fit=max' }} // Profile avatar from Unsplash
-    style={styles.profileImage}
-  />
-  <Text style={styles.initials}>MI</Text>
-</TouchableOpacity>
-
-
-
-      {/* User Information */}
-      <View style={styles.userInfo}>
-        <Text style={styles.label}>Name:</Text>
-        <Text style={styles.value}>New User</Text>
-      </View>
-      <View style={styles.userInfo}>
-        <Text style={styles.label}>Email:</Text>
-        <Text style={styles.value}>moh_mhr@example.com</Text>
-      </View>
-      <View style={styles.userInfo}>
-        <Text style={styles.label}>Phone:</Text>
-        <Text style={styles.value}>+212771532828</Text>
+    <View style={[styles.container, isDarkTheme && styles.darkContainer]}>
+      <View style={styles.header}>
+        <Text style={[styles.title, isDarkTheme && styles.darkTitle]}>Mon Profil</Text>
       </View>
 
-      {/* Edit Profile Button */}
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EditProfile')}>
-        <Text style={styles.buttonText}>Edit Profile</Text>
+      <View style={styles.profileContainer}>
+        <Image 
+          source={{ uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?crop=entropy&cs=tinysrgb&w=1080&fit=max' }}
+          style={styles.profileImage}
+        />
+        <Text style={styles.initials}>Username</Text>
+      </View>
+
+      <View style={styles.userInfoContainer}>
+        <Text style={[styles.label, isDarkTheme && styles.darkLabel]}>Nom :</Text>
+        <Text style={[styles.value, isDarkTheme && styles.darkValue]}>Nouvel Utilisateur</Text>
+        
+        <Text style={[styles.label, isDarkTheme && styles.darkLabel]}>Email :</Text>
+        <Text style={[styles.value, isDarkTheme && styles.darkValue]}>moh_mhr@example.com</Text>
+
+        <Text style={[styles.label, isDarkTheme && styles.darkLabel]}>Téléphone :</Text>
+        <Text style={[styles.value, isDarkTheme && styles.darkValue]}>+212771532828</Text>
+      </View>
+
+      <TouchableOpacity 
+        style={[styles.button, styles.changePasswordButton]} 
+        onPress={handleChangePassword}
+        accessibilityLabel="Changer le mot de passe"
+      >
+        <Text style={styles.buttonText}>Changer le Mot de Passe</Text>
       </TouchableOpacity>
-      
 
-      {/* Logout Button */}
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutButtonText}>Logout</Text>
+      <TouchableOpacity 
+        style={[styles.button, styles.themeButton]} 
+        onPress={toggleTheme}
+        accessibilityLabel="Changer le thème"
+      >
+        <Text style={styles.buttonText}>{isDarkTheme ? 'Thème Clair' : 'Thème Sombre'}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        style={styles.logoutButton} 
+        onPress={handleLogout}
+        accessibilityLabel="Déconnexion"
+      >
+        <Text style={styles.logoutButtonText}>Déconnexion</Text>
       </TouchableOpacity>
     </View>
   );
@@ -59,82 +83,99 @@ const ProfileScreen = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F0FF8',
+    backgroundColor: '#F5F5F5',
     padding: 20,
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 20,
+  darkContainer: {
+    backgroundColor: '#121212',
   },
-  profilePicture: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#007bff',
-    justifyContent: 'center',
+  header: {
     alignItems: 'center',
     marginBottom: 30,
-    overflow: 'hidden',
-    borderWidth: 3,
-    borderColor: '#fff',
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  darkTitle: {
+    color: '#FFF',
+  },
+  profileContainer: {
+    alignItems: 'center',
+    marginBottom: 30,
   },
   profileImage: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    borderRadius: 60,
+    width: 130,
+    height: 130,
+    borderRadius: 65,
+    borderWidth: 4,
+    borderColor: '#8e44ad', // Purple accent for profile border
+    marginBottom: 12,
   },
   initials: {
-    color: '#fff',
-    fontSize: 28,
-    fontWeight: 'bold',
+    color: '#8e44ad',
+    fontSize: 24,
+    fontWeight: '600',
   },
-  userInfo: {
-    flexDirection: 'row',
-    marginVertical: 12,
+  userInfoContainer: {
     width: '100%',
-    justifyContent: 'space-between',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingVertical: 20,
+    paddingHorizontal: 18,
+    elevation: 3,
+    marginBottom: 20,
   },
   label: {
-    fontWeight: 'bold',
-    fontSize: 18,
+    fontWeight: '500',
+    fontSize: 16,
     color: '#555',
+    marginBottom: 4,
+  },
+  darkLabel: {
+    color: '#CCC',
   },
   value: {
-    fontSize: 18,
-    color: '#777',
+    fontSize: 16,
+    color: '#333',
+    marginBottom: 10,
+  },
+  darkValue: {
+    color: '#DDD',
   },
   button: {
-    backgroundColor: '#6C63FF', // Consistent with other screens
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    paddingVertical: 14,
     borderRadius: 10,
-    marginTop: 30,
     alignItems: 'center',
-    width: '100%',
+    marginBottom: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
+  },
+  changePasswordButton: {
+    backgroundColor: '#3498db', // Blue accent for password change
+  },
+  themeButton: {
+    backgroundColor: '#34495e', // Darker shade for theme toggle
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   logoutButton: {
-    backgroundColor: '#dc3545',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
+    backgroundColor: '#e74c3c', // Red for logout
+    paddingVertical: 14,
     borderRadius: 10,
-    marginTop: 15,
     alignItems: 'center',
-    width: '100%',
   },
   logoutButtonText: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 });
 

@@ -7,7 +7,7 @@ interface Perfume {
   id: string;
   name: string;
   price: string;
-  image: any;
+  image: any; // Consider using a more specific type if possible
   gender: 'male' | 'female' | 'unisex';
   description: string;
   rating: number; // Optional property for rating
@@ -20,15 +20,51 @@ const perfumes: Perfume[] = [
   { id: '4', name: 'Black Opium', price: '$550', image: require('../assets/perfumes/bo.png'), gender: 'female', description: 'A warm and spicy scent.', rating: 4 },
   { id: '5', name: 'Kirk', price: '$90', image: require('../assets/perfumes/kirk.png'), gender: 'male', description: 'Kirk de Mirko Buffini Firenze est un parfum boisé épicé pour homme.', rating: 3 },
   { id: '6', name: 'Sauvage', price: '$85', image: require('../assets/perfumes/sauvage.png'), gender: 'male', description: 'La bergamote de Calabre, signature vive et juteuse de Sauvage.', rating: 4 },
-  { id: '7', name: 'Born in Roma', price: '$160', image: { uri: 'https://daisy.ma/wp-content/uploads/2023/07/valentino-donna-born-in-roma-intense-eau-de-parfum-skin-society-shop-address-country-2.webp' }, gender: 'female', description: 'For the elegant.', rating: 4 },
-  { id: '8', name: 'Chanel No. 5', price: '$300', image: { uri: 'https://mojezapachy.pl/7435-large_default/chanel-no5-l-eau-red-edition-woda-toaletowa-100ml.jpg' }, gender: 'female', description: 'A timeless classic with floral notes.', rating: 5 },
-  { id: '9', name: 'Dior Homme Intense', price: '$150', image: { uri: 'https://kosmenia.ma/cdn/shop/files/dior_homme_eau_de_parfum_intense_P_2048x.jpg?v=1710947007' }, gender: 'male', description: 'A rich and woody fragrance for men.', rating: 4 },
-  { id: '10', name: 'Yves Saint Laurent Libre', price: '$130', image: { uri: 'https://www.fatin.ma/wp-content/uploads/2023/05/ysl_libre_le_parfum_1.jpg' }, gender: 'female', description: 'A bold and floral scent with a hint of lavender.', rating: 4 },
-  { id: '11', name: 'Tom Ford Black Orchid', price: '$180', image: { uri: 'https://www.lamode.tn/55867-large_default/eau-de-toilette-unisexe-tom-ford-tom-ford-black-orchid.webp' }, gender: 'unisex', description: 'An opulent and dark fragrance with rich notes.', rating: 4 },
-  { id: '12', name: 'Marc Jacobs Daisy', price: '$95', image: { uri: 'https://daisy.ma/wp-content/uploads/2024/03/marc-jacobs-ladies-perfect-intense-edp-spray-34-oz-fragrances-3616302779994-2.jpg' }, gender: 'female', description: 'A fresh and fruity floral scent perfect for everyday wear.', rating: 3 },
-  { id: '13', name: 'JEAN PAUL GAULTIER - Le Male', price: '$88', image: { uri: 'https://kosmenia.ma/cdn/shop/files/jean_paul-gaultier_le_male_elixir_p1_2048x.jpg?v=1703184975' }, gender: 'male', description: 'Faites monter la température pendant les festivités avec le coffret Le Mâle Eau de toilette.', rating: 4 },
-];
+  { id: '7', name: 'Born in Roma', price: '$160', image: { uri:'https://daisy.ma/wp-content/uploads/2023/07/valentino-donna-born-in-roma-intense-eau-de-parfum-skin-society-shop-address-country-2.webp' }, gender:'female', description:'For the elegant.', rating :4 },
+  { id:'8', name:'Chanel No. 5', price:'$300', image:{ uri:'https://mojezapachy.pl/7435-large_default/chanel-no5-l-eau-red-edition-woda-toaletowa-100ml.jpg' }, gender:'female', description:'A timeless classic with floral notes.', rating :5 },
+  { id:'9', name:'Dior Homme Intense', price:'$150', image:{ uri:'https://kosmenia.ma/cdn/shop/files/dior_homme_eau_de_parfum_intense_P_2048x.jpg?v=1710947007' }, gender:'male', description:'A rich and woody fragrance for men.', rating :4 },
+  { id:'10', name:'Yves Saint Laurent Libre', price:'$130', image:{ uri:'https://www.fatin.ma/wp-content/uploads/2023/05/ysl_libre_le_parfum_1.jpg' }, gender:'female', description:'A bold and floral scent with a hint of lavender.', rating :4 },
+  
+  {
+    id:'11',
+    name:'Born In Roma Collection Set',
+    gender:'female',
+    price:'$88.00',
+    image:{ uri:'https://boutique.heathrow.com/dw/image/v2/BDNX_PRD/on/demandware.static/-/Sites-boutique-master-catalog/default/dw82314a1c/images/hi-res/world-duty-free/6094605detailImage01.jpg' },
+    description:'Luxe',
+    rating :4
+  },
 
+  { 
+    id:'12',
+    name:'Tom Ford Black Orchid',
+    price:'$180',
+    image:{ uri:'https://www.lamode.tn/55867-large_default/eau-de-toilette-unisexe-tom-ford-tom-ford-black-orchid.webp' }, 
+    gender:'unisex',
+    description:'An opulent and dark fragrance with rich notes.',
+    rating :4
+  },
+
+  {
+    id:'13',
+    name:'Marc Jacobs Daisy',
+    price:'$95',
+    image:{ uri:'https://daisy.ma/wp-content/uploads/2024/03/marc-jacobs-ladies-perfect-intense-edp-spray-34-oz-fragrances-3616302779994-2.jpg' }, 
+    gender:'female',
+    description:'A fresh and fruity floral scent perfect for everyday wear.',
+    rating :3
+  },
+
+  {
+    id:'14',
+    name:'JEAN PAUL GAULTIER - Le Male',
+    price:'$88',
+    image:{ uri:'https://kosmenia.ma/cdn/shop/files/jean_paul-gaultier_le_male_elixir_p1_2048x.jpg?v=1703184975' }, 
+    gender:'male',
+    description:'Faites monter la température pendant les festivités avec le coffret Le Mâle Eau de toilette.',
+    rating :4
+  },
+];
 
 const PerfumeScreen = () => {
   const [genderFilter, setGenderFilter] = useState<string>('All');

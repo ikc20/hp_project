@@ -1,18 +1,32 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Animated, Easing } from 'react-native';
 
-const HomeScreen = ({ navigation }: { navigation: any }) => {
+const HomeScreen = ({ navigation }) => {
+  // Animated values for fade-in effect
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  // Start animation when component mounts
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1500,
+      easing: Easing.ease,
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
   return (
     <ImageBackground 
-      source={require('../assets/blue.png')} 
+      source={require('../assets/red.png')} 
       style={styles.backgroundImage}
     >
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
         <Text style={styles.title}>Welcome to Our Store!</Text>
-        <Text style={styles.subtitle}>Your one-stop shop for beautiful exclusive products and perfumes</Text>
+        <Text style={styles.subtitle}>
+          Your one-stop shop for beautiful exclusive products and perfumes
+        </Text>
 
-
-      <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('Login')}>
           <Text style={styles.navigationButtonText}>Log In</Text>
         </TouchableOpacity>
 
@@ -20,7 +34,6 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
           <Text style={styles.navigationButtonText}>Create an Account</Text>
         </TouchableOpacity>
 
-        
         <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('HomePerfume')}>
           <Text style={styles.navigationButtonText}>Promo Of The Week</Text>
         </TouchableOpacity>
@@ -32,7 +45,7 @@ const HomeScreen = ({ navigation }: { navigation: any }) => {
         <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('PerfumeScreen')}>
           <Text style={styles.navigationButtonText}>Our Perfumes</Text>
         </TouchableOpacity>
-      </View>
+      </Animated.View>
     </ImageBackground>
   );
 };
@@ -47,37 +60,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: 'rgba(240, 244, 248, 0.8)', // Slightly darker overlay for better contrast
+    backgroundColor: 'rgba(240, 244, 248, 0.7)', // Transparent overlay for better contrast
   },
   title: {
     fontSize: 36,
     fontWeight: 'bold',
-    color: '#2C3E50', // Darker color for better readability
+    color: '#2C3E50',
     marginBottom: 10,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 20,
-    color: '#34495E', // Darker color for better readability
+    color: '#34495E',
     marginBottom: 40,
     textAlign: 'center',
   },
   navigationButton: {
-    backgroundColor: '#E74C3C', // Changed to a more vibrant red
+    backgroundColor: '#E74C3C',
     paddingVertical: 15,
     paddingHorizontal: 30,
-    borderRadius: 25, // More rounded corners for a modern look
+    borderRadius: 25,
     marginBottom: 15,
     width: '80%',
     alignItems: 'center',
-    shadowColor: '#000', // Shadow effect for depth
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 5, // For Android shadow effect
+    elevation: 5,
   },
   navigationButtonText: {
     color: '#fff',
