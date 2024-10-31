@@ -20,7 +20,7 @@ const perfumes: Perfume[] = [
   { id: '4', name: 'Black Opium', price: '$550', image: require('../assets/perfumes/bo.png'), gender: 'female', description: 'A warm and spicy scent.', rating: 4 },
   { id: '5', name: 'Kirk', price: '$90', image: require('../assets/perfumes/kirk.png'), gender: 'male', description: 'Kirk de Mirko Buffini Firenze est un parfum boisé épicé pour homme.', rating: 3 },
   { id: '6', name: 'Sauvage', price: '$85', image: require('../assets/perfumes/sauvage.png'), gender: 'male', description: 'La bergamote de Calabre, signature vive et juteuse de Sauvage.', rating: 4 },
-  { id: '7', name: 'Born in Roma', price: '$160', image: { uri:'https://daisy.ma/wp-content/uploads/2023/07/valentino-donna-born-in-roma-intense-eau-de-parfum-skin-society-shop-address-country-2.webp' }, gender:'female', description:'For the elegant.', rating :4 },
+  { id: '7', name: 'Born in Roma', price: '$160', image: require, gender:'female', description:'For the elegant.', rating :4 },
   { id:'8', name:'Chanel No. 5', price:'$300', image:{ uri:'https://mojezapachy.pl/7435-large_default/chanel-no5-l-eau-red-edition-woda-toaletowa-100ml.jpg' }, gender:'female', description:'A timeless classic with floral notes.', rating :5 },
   { id:'9', name:'Dior Homme Intense', price:'$150', image:{ uri:'https://kosmenia.ma/cdn/shop/files/dior_homme_eau_de_parfum_intense_P_2048x.jpg?v=1710947007' }, gender:'male', description:'A rich and woody fragrance for men.', rating :4 },
   { id:'10', name:'Yves Saint Laurent Libre', price:'$130', image:{ uri:'https://www.fatin.ma/wp-content/uploads/2023/05/ysl_libre_le_parfum_1.jpg' }, gender:'female', description:'A bold and floral scent with a hint of lavender.', rating :4 },
@@ -227,8 +227,10 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 16,
-    color: '#E74C3C',
+    color: '#2B2D42',
     marginVertical: 8,
+    textDecorationLine: 'line-through',
+
   },
   rating: {
     alignSelf: 'flex-start',

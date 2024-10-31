@@ -1,19 +1,37 @@
-// ForgotPasswordScreen.tsx
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
-const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
+interface Props {
+  navigation: StackNavigationProp<any>;
+}
+
+const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleResetPassword = () => {
     if (!email) {
       Alert.alert('Error', 'Please enter your email');
-    } else {
-      // Add your password reset logic here (API call, etc.)
+      return;
+    }
+
+    // Simple email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      Alert.alert('Error', 'Please enter a valid email address');
+      return;
+    }
+
+    setLoading(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      setLoading(false);
       Alert.alert('Reset Link Sent', 'Check your email to reset your password!');
       navigation.navigate('Login'); // Navigate back to login after request
-    }
+    }, 2000); // Simulate a network request delay
   };
 
   return (
@@ -27,10 +45,15 @@ const ForgotPasswordScreen = ({ navigation }: { navigation: any }) => {
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
+        accessibilityLabel="Email input"
       />
 
-      <TouchableOpacity style={styles.resetButton} onPress={handleResetPassword}>
-        <Text style={styles.resetButtonText}>Send Reset Link</Text>
+      <TouchableOpacity style={styles.resetButton} onPress={handleResetPassword} disabled={loading}>
+        {loading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.resetButtonText}>Send Reset Link</Text>
+        )}
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>

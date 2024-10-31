@@ -1,11 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ImageBackground, Animated, Easing } from 'react-native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = ({ navigation }) => {
-  // Animated values for fade-in effect
+type RootStackParamList = {
+  Login: undefined;
+  SignUp: undefined;
+  HomePerfume: undefined;
+  BodyProductsScreen: undefined;
+  PerfumeScreen: undefined;
+};
+
+type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
+
+const HomeScreen = () => {
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  // Start animation when component mounts
   useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -16,10 +28,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <ImageBackground 
-      source={require('../assets/red.png')} 
-      style={styles.backgroundImage}
-    >
+    <ImageBackground source={require('../assets/red.png')} style={styles.backgroundImage}>
       <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
         <Text style={styles.title}>Welcome to Our Store!</Text>
         <Text style={styles.subtitle}>
@@ -53,14 +62,14 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover', // Cover the entire screen
+    resizeMode: 'cover',
   },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: 'rgba(240, 244, 248, 0.7)', // Transparent overlay for better contrast
+    backgroundColor: 'rgba(240, 244, 248, 0.7)',
   },
   title: {
     fontSize: 36,

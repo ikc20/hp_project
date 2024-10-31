@@ -1,12 +1,29 @@
+// Login.tsx
+
 import React, { useState } from 'react';
 import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-export default function Login({ navigation }) {
+interface LoginProps {
+  navigation: any; // Replace with a more specific type if using TypeScript
+}
+
+const Login: React.FC<LoginProps> = ({ navigation }) => {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
+
+  const handleLogin = () => {
+    const { email, password } = form;
+    if (!email || !password) {
+      Alert.alert('Erreur', 'Veuillez remplir tous les champs.');
+      return;
+    }
+    // Add your login logic here (API call)
+    Alert.alert('Succès', 'Connexion réussie!');
+    // navigation.navigate('Home'); // Navigate to home or dashboard after login
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
@@ -18,7 +35,7 @@ export default function Login({ navigation }) {
             style={styles.headerImg}
             source={{ uri: 'https://i.pinimg.com/564x/0d/ba/0f/0dba0f58167eb0b79dddf50aab0d4839.jpg' }} 
           />
-          <Text style={styles.title}>Connectez-vous</Text>
+          <Text style={styles.title}>Connectez-vous</Text> 
           <Text style={styles.subtitle}>Accédez à votre compte et plus</Text>
         </View>
 
@@ -35,11 +52,12 @@ export default function Login({ navigation }) {
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
               value={form.email}
+              accessibilityLabel="Email input"
             />
           </View>
 
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>Password</Text>
+            <Text style={styles.inputLabel}>Mot de passe</Text>
             <TextInput
               autoCorrect={false}
               clearButtonMode="while-editing"
@@ -47,15 +65,16 @@ export default function Login({ navigation }) {
               placeholder="********"
               placeholderTextColor="#6b7280"
               style={styles.inputControl}
-              secureTextEntry={true}
+              secureTextEntry
               value={form.password}
+              accessibilityLabel="Password input"
             />
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={() => Alert.alert('Login pressed')}>
+            <TouchableOpacity onPress={handleLogin}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Log In</Text>
+                <Text style={styles.btnText}>Se connecter</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -76,7 +95,7 @@ export default function Login({ navigation }) {
       </TouchableOpacity>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -117,9 +136,9 @@ const styles = StyleSheet.create({
   forgotPasswordText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#075eec', // Couleur du texte pour le lien
+    color: '#075eec',
     textAlign: 'center',
-    marginTop: 10, // Ajout d'un espace au-dessus
+    marginTop: 10,
   },
   formFooter: {
     paddingVertical: 24,
@@ -165,3 +184,5 @@ const styles = StyleSheet.create({
      color :'#fff'
    }
 });
+
+export default Login;
