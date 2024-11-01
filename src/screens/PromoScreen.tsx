@@ -1,7 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, Image, StyleSheet, SafeAreaView, FlatList, TouchableOpacity, Alert, Animated } from 'react-native';
 
-const PROMO_PERFUMES = [
+interface PromoPerfume {
+  id: string;
+  name: string;
+  brand?: string;
+  price: string;
+  image: { uri: string } | number; // number for local images
+}
+
+const PROMO_PERFUMES: PromoPerfume[] = [
   {
     id: '1',
     name: 'BORN IN ROMA',
@@ -13,14 +21,12 @@ const PROMO_PERFUMES = [
     id: '10',
     name: 'Jean Paul Gaultier - Divine Coffret',
     price: '$224.00',
-    rating: 4,
     image: { uri: 'https://www.parfumerie-burdin.com/23057-thickbox_default/jean-paul-gaultier-divine-coffret-parfum-et-son-vaporisateur-de-sac.jpg' },
   },
   {
     id: '6',
     name: 'Cheirosa 68 Family',
     price: '$29.00',
-    rating: 4,
     image: { uri: 'https://static.thcdn.com/images/small/webp/widgets/95-en/29/original-cheirosa68-010029.png' },
   },
   {
@@ -34,17 +40,13 @@ const PROMO_PERFUMES = [
     id: '9',
     name: 'Sol De Janeiro - Rio Radiance Body Spray SPF50',
     price: '$36.00',
-    rating: 4.5,
     image: { uri: 'https://bogart-april-be-storage.omn.proximis.com/Imagestorage/imagesSynchro/600/600/b3880a157b908f6a067c8690b2e8385c8e85028f_3ade6ea1-e896-4b16-b9ea-front.jpeg' },
   },
   {
     id: '11',
     name: 'Born In Roma Collection Set',
-    gender: 'female',
     price: '$88.00',
     image: { uri: 'https://boutique.heathrow.com/dw/image/v2/BDNX_PRD/on/demandware.static/-/Sites-boutique-master-catalog/default/dw82314a1c/images/hi-res/world-duty-free/6094605detailImage01.jpg' },
-    description: 'Luxe',
-    rating: 4,
   },
 ];
 
@@ -67,16 +69,19 @@ const PromoScreen = () => {
     ]).start();
   }, []);
 
-  const handleBuyPress = (itemName) => {
+  const handleBuyPress = (itemName: string) => {
     Alert.alert('Purchase Confirmation', `You have selected ${itemName} for purchase.`);
   };
 
-  const renderPromoItem = ({ item }) => (
+  const renderPromoItem = ({ item }: { item: PromoPerfume }) => (
     <Animated.View style={[styles.promotionContainer, { opacity: fadeAnim, transform: [{ translateY: translateYAnim }] }]}>
       <Text style={styles.promotionTitle}>Special Promotion</Text>
       <Text style={styles.promotionSubTitle}>of the Week</Text>
 
-      <Image source={item.image} style={styles.perfumeImage} />
+      <Image
+        source={item.image || require('../assets/perfumes/default.png')} // Fallback image
+        style={styles.perfumeImage}
+      />
 
       <Text style={styles.perfumeName}>{item.name}</Text>
       {item.brand && <Text style={styles.perfumeBrand}>{item.brand}</Text>}

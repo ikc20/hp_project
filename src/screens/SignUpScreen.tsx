@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import RNPickerSelect from 'react-native-picker-select';
 import * as Yup from 'yup';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../types';
 
 interface SignUpProps {
   navigation: StackNavigationProp<RootStackParamList, 'SignUp'>;
@@ -42,7 +43,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
               onChangeText={handleChange('username')}
               onBlur={handleBlur('username')}
               value={values.username}
-              placeholderTextColor="#aaa" // Couleur du texte du placeholder
+              placeholderTextColor="#aaa"
             />
             {errors.username && <Text style={styles.error}>{errors.username}</Text>}
 
@@ -54,45 +55,37 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
               value={values.email}
               keyboardType="email-address"
               autoCapitalize="none"
-              placeholderTextColor="#aaa" // Couleur du texte du placeholder
+              placeholderTextColor="#aaa"
             />
             {errors.email && <Text style={styles.error}>{errors.email}</Text>}
 
             <RNPickerSelect
-              onValueChange={handleChange('country')}
-              placeholder={{ label: 'Sélectionnez un pays', value: '' }}
-              items={[
-                { label: 'France', value: 'France' },
-                { label: 'Canada', value: 'Canada' },
-                { label: 'United States', value: 'United States' },
-                { label: 'Morocco', value: 'Morocco' },
-                { label: 'Brazil', value: 'Brazil' },
-                { label: 'Germany', value: 'Germany' },
-                { label: 'Australia', value: 'Australia' },
-                { label: 'India', value: 'India' },
-                { label: 'Japan', value: 'Japan' },
-                { label: 'Mexico', value: 'Mexico' },
-                { label: 'Italy', value: 'Italy' },
-                { label: 'Spain', value: 'Spain' },
-                { label: 'South Africa', value: 'South Africa' },
-                { label: 'Russia', value: 'Russia' },
-                { label: 'Argentina', value: 'Argentina' },
-                { label: 'Netherlands', value: 'Netherlands' },
-                { label: 'Sweden', value: 'Sweden' },
-                { label: 'Switzerland', value: 'Switzerland' },
-                { label: 'Belgium', value: 'Belgium' },
-                { label: 'China', value: 'China' },
-              ]}
-              
-              style={{
-                inputAndroid: styles.input,
-                inputIOS: styles.input,
-                iconContainer:{
-                  top:'12%',
-                  right:'2%',
-                }
-              }}
-            />
+  onValueChange={handleChange('country')}
+  placeholder={{ label: 'Sélectionnez un pays', value: '' }}
+  items={[
+    { label: 'France', value: 'France' },
+    { label: 'Canada', value: 'Canada' },
+    { label: 'Morocco', value: 'Morocco' },
+    { label: 'United States', value: 'United States' },
+    { label: 'Germany', value: 'Germany' },
+    { label: 'Italy', value: 'Italy' },
+    { label: 'Spain', value: 'Spain' },
+    { label: 'United Kingdom', value: 'United Kingdom' },
+    { label: 'Australia', value: 'Australia' },
+    { label: 'Brazil', value: 'Brazil' },
+    { label: 'India', value: 'India' },
+    { label: 'Japan', value: 'Japan' },
+  ]}
+  style={{
+    inputAndroid: styles.input,
+    inputIOS: styles.input,
+    iconContainer: {
+      top: '12%',
+      right: '2%',
+    },
+  }}
+/>
+
             {errors.country && <Text style={styles.error}>{errors.country}</Text>}
 
             <TextInput
@@ -102,7 +95,7 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
               onBlur={handleBlur('password')}
               value={values.password}
               secureTextEntry
-              placeholderTextColor="#aaa" // Couleur du texte du placeholder
+              placeholderTextColor="#aaa"
             />
             {errors.password && <Text style={styles.error}>{errors.password}</Text>}
 
@@ -113,11 +106,12 @@ const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
               onBlur={handleBlur('confirmPassword')}
               value={values.confirmPassword}
               secureTextEntry
-              placeholderTextColor="#aaa" // Couleur du texte du placeholder
+              placeholderTextColor="#aaa"
             />
             {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
 
-            <TouchableOpacity style={styles.signUpButton} onPress={handleSubmit}>
+            {/* Updated onPress handler */}
+            <TouchableOpacity style={styles.signUpButton} onPress={() => handleSubmit()}>
               <Text style={styles.signUpText}>S'inscrire</Text>
             </TouchableOpacity>
 
@@ -182,12 +176,13 @@ const styles = StyleSheet.create({
      color:'#DF8B92',
      textAlign:'center',
      textDecorationLine:'underline',
-     marginTop:'12',
+     marginTop:'12%',
    },
-   error:{
-     color:'red',
-     marginBottom:'8'
-   }
+   error: {
+    color: 'red',
+    marginBottom: 8, // Changed from "8" to 8
+  },
+  
 });
 
 export default SignUp;
