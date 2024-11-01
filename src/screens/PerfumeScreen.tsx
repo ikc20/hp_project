@@ -1,75 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { SearchBar, Rating } from 'react-native-elements'; // Import de la SearchBar et Rating
+import { SearchBar, Rating } from 'react-native-elements';
+import { ImageSourcePropType } from 'react-native';
 
 interface Perfume {
   id: string;
   name: string;
   price: string;
-  image: any; // Consider using a more specific type if possible
+  image: ImageSourcePropType | { uri: string };
   gender: 'male' | 'female' | 'unisex';
   description: string;
-  rating: number; // Optional property for rating
+  rating: number;
 }
 
-const perfumes: Perfume[] = [
-  { id: '1', name: 'La Belle', price: '$150', image: require('../assets/perfumes/her.png'), gender: 'female', description: 'A sweet floral fragrance.', rating: 4 },
-  { id: '2', name: 'Lost Cherry', price: '$260', image: require('../assets/perfumes/image2.png'), gender: 'unisex', description: 'A fruity and floral scent.', rating: 3 },
-  { id: '3', name: 'Paradoxe Prada', price: '$450', image: require('../assets/perfumes/image3.png'), gender: 'female', description: 'A modern and sophisticated fragrance.', rating: 5 },
-  { id: '4', name: 'Black Opium', price: '$550', image: require('../assets/perfumes/bo.png'), gender: 'female', description: 'A warm and spicy scent.', rating: 4 },
-  { id: '5', name: 'Kirk', price: '$90', image: require('../assets/perfumes/kirk.png'), gender: 'male', description: 'Kirk de Mirko Buffini Firenze est un parfum boisé épicé pour homme.', rating: 3 },
-  { id: '6', name: 'Sauvage', price: '$85', image: require('../assets/perfumes/sauvage.png'), gender: 'male', description: 'La bergamote de Calabre, signature vive et juteuse de Sauvage.', rating: 4 },
-  { id: '7', name: 'Born in Roma', price: '$160', image: require, gender:'female', description:'For the elegant.', rating :4 },
-  { id:'8', name:'Chanel No. 5', price:'$300', image:{ uri:'https://mojezapachy.pl/7435-large_default/chanel-no5-l-eau-red-edition-woda-toaletowa-100ml.jpg' }, gender:'female', description:'A timeless classic with floral notes.', rating :5 },
-  { id:'9', name:'Dior Homme Intense', price:'$150', image:{ uri:'https://kosmenia.ma/cdn/shop/files/dior_homme_eau_de_parfum_intense_P_2048x.jpg?v=1710947007' }, gender:'male', description:'A rich and woody fragrance for men.', rating :4 },
-  { id:'10', name:'Yves Saint Laurent Libre', price:'$130', image:{ uri:'https://www.fatin.ma/wp-content/uploads/2023/05/ysl_libre_le_parfum_1.jpg' }, gender:'female', description:'A bold and floral scent with a hint of lavender.', rating :4 },
-  
-  {
-    id:'11',
-    name:'Born In Roma Collection Set',
-    gender:'female',
-    price:'$88.00',
-    image:{ uri:'https://boutique.heathrow.com/dw/image/v2/BDNX_PRD/on/demandware.static/-/Sites-boutique-master-catalog/default/dw82314a1c/images/hi-res/world-duty-free/6094605detailImage01.jpg' },
-    description:'Luxe',
-    rating :4
-  },
-
-  { 
-    id:'12',
-    name:'Tom Ford Black Orchid',
-    price:'$180',
-    image:{ uri:'https://www.lamode.tn/55867-large_default/eau-de-toilette-unisexe-tom-ford-tom-ford-black-orchid.webp' }, 
-    gender:'unisex',
-    description:'An opulent and dark fragrance with rich notes.',
-    rating :4
-  },
-
-  {
-    id:'13',
-    name:'Marc Jacobs Daisy',
-    price:'$95',
-    image:{ uri:'https://daisy.ma/wp-content/uploads/2024/03/marc-jacobs-ladies-perfect-intense-edp-spray-34-oz-fragrances-3616302779994-2.jpg' }, 
-    gender:'female',
-    description:'A fresh and fruity floral scent perfect for everyday wear.',
-    rating :3
-  },
-
-  {
-    id:'14',
-    name:'JEAN PAUL GAULTIER - Le Male',
-    price:'$88',
-    image:{ uri:'https://kosmenia.ma/cdn/shop/files/jean_paul-gaultier_le_male_elixir_p1_2048x.jpg?v=1703184975' }, 
-    gender:'male',
-    description:'Faites monter la température pendant les festivités avec le coffret Le Mâle Eau de toilette.',
-    rating :4
-  },
-];
-
 const PerfumeScreen = () => {
+  const [perfumes, setPerfumes] = useState<Perfume[]>([]);
   const [genderFilter, setGenderFilter] = useState<string>('All');
   const [cart, setCart] = useState<Perfume[]>([]);
-  const [search, setSearch] = useState<string>(''); // État pour la barre de recherche
+  const [search, setSearch] = useState<string>('');
+
+  // Fonction pour charger les produits depuis l'API
+  useEffect(() => {
+    const fetchPerfumes = async () => {
+      try {
+        const response = await fetch('http://your-api-url/api/products'); // Remplacez avec votre URL d'API
+        const data = await response.json();
+        setPerfumes(data); // Assurez-vous que la structure des données correspond à votre interface Perfume
+      } catch (error) {
+        console.error('Error fetching perfumes:', error);
+        Alert.alert('Error', 'Could not load perfumes. Please try again later.');
+      }
+    };
+
+    fetchPerfumes();
+  }, []);
 
   const updateSearch = (text: string) => {
     setSearch(text);
@@ -95,15 +60,7 @@ const PerfumeScreen = () => {
       <View style={styles.details}>
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.price}>{item.price}</Text>
-        
-        {/* Rating Component */}
-        <Rating
-          imageSize={20}
-          readonly
-          startingValue={item.rating || 0} // Default rating if not provided
-          style={styles.rating}
-        />
-
+        <Rating imageSize={20} readonly startingValue={item.rating || 0} style={styles.rating} />
         <View style={styles.iconsContainer}>
           <TouchableOpacity onPress={() => addToCart(item)} accessibilityLabel={`Add ${item.name} to cart`}>
             <Icon name="add-shopping-cart" size={24} color="#4CAF50" />
@@ -119,8 +76,6 @@ const PerfumeScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Perfume Collection</Text>
-
-      {/* Barre de recherche */}
       <SearchBar
         placeholder="Search for perfumes..."
         onChangeText={updateSearch}
@@ -130,7 +85,6 @@ const PerfumeScreen = () => {
         containerStyle={styles.searchContainer}
         inputContainerStyle={styles.searchInputContainer}
       />
-
       <View style={styles.filterContainer}>
         {['All', 'Female', 'Male', 'Unisex'].map(gender => (
           <TouchableOpacity 
@@ -142,7 +96,6 @@ const PerfumeScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
-      
       <FlatList
         data={filteredPerfumes}
         renderItem={renderItem}
@@ -150,6 +103,7 @@ const PerfumeScreen = () => {
         numColumns={2}
         columnWrapperStyle={styles.row}
       />
+      {filteredPerfumes.length === 0 && <Text style={styles.noResults}>No results found.</Text>}
     </SafeAreaView>
   );
 };
@@ -230,7 +184,6 @@ const styles = StyleSheet.create({
     color: '#2B2D42',
     marginVertical: 8,
     textDecorationLine: 'line-through',
-
   },
   rating: {
     alignSelf: 'flex-start',
@@ -239,6 +192,12 @@ const styles = StyleSheet.create({
   iconsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  noResults: {
+    textAlign: 'center',
+    marginTop: 20,
+    fontSize: 16,
+    color: '#888',
   },
 });
 

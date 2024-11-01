@@ -10,9 +10,10 @@ import Profile from './screens/ProfileScreen';
 import HomePerfume from './screens/PromoScreen';
 import PerfumeScreen from './screens/PerfumeScreen';
 import BodyProductsScreen from './screens/BodyProductsScreen';
-import BlushersScreen from './screens/BlushersScreen'; // Import BlushersScreen
-import 'react-native-gesture-handler';
+import BlushersScreen from './screens/BlushersScreen';
 import PromoScreen from './screens/PromoScreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import 'react-native-gesture-handler';
 
 // Define types for navigation parameters
 type RootStackParamList = {
@@ -22,7 +23,8 @@ type RootStackParamList = {
   Profile: undefined;
   HomePerfume: undefined;
   PerfumeScreen: undefined;
-  BlushersScreen: undefined; // Add BlushersScreen to types
+  BlushersScreen: undefined;
+  ForgotPassword: undefined; // Add ForgotPassword to types
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -43,6 +45,7 @@ const HomeStack = () => {
     >
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} options={{title:'ForgotPassword'}} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="HomePerfume" component={HomePerfume} />
