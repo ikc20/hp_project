@@ -1,188 +1,214 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { Formik } from 'formik';
-import RNPickerSelect from 'react-native-picker-select';
-import * as Yup from 'yup';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../types';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import FeatherIcon from 'react-native-vector-icons/Feather';
 
-interface SignUpProps {
-  navigation: StackNavigationProp<RootStackParamList, 'SignUp'>;
-}
-
-const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
-  const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Ce champ est requis'),
-    email: Yup.string().email('Adresse e-mail invalide').required('Ce champ est requis'),
-    password: Yup.string().min(6, 'Le mot de passe doit contenir au moins 6 caractères').required('Ce champ est requis'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), undefined], 'Les mots de passe doivent correspondre')
-      .required('Ce champ est requis'),
-    country: Yup.string().required('Sélectionnez un pays'),
+export default function Example() {
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
-
-  const handleSignUp = (values: { username: string; email: string; password: string; confirmPassword: string; country: string }) => {
-    Alert.alert('Succès', `Inscription réussie pour ${values.username} de ${values.country}!`);
-    navigation.navigate('Login');
-  };
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Créer un Compte</Text>
-      
-      <Formik
-        initialValues={{ username: '', email: '', password: '', confirmPassword: '', country: '' }}
-        validationSchema={validationSchema}
-        onSubmit={handleSignUp}
-      >
-        {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
-          <>
-            <TextInput
-              style={styles.input}
-              placeholder="Nom d'utilisateur"
-              onChangeText={handleChange('username')}
-              onBlur={handleBlur('username')}
-              value={values.username}
-              placeholderTextColor="#aaa"
-            />
-            {errors.username && <Text style={styles.error}>{errors.username}</Text>}
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
+      <KeyboardAwareScrollView style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.headerBack}>
+            <FeatherIcon
+              color="#1D2A32"
+              name="chevron-left"
+              size={30} />
+          </View>
+
+          <Text style={styles.title}>Let's Get Started!</Text>
+
+          <Text style={styles.subtitle}>
+            Fill in the fields below to get started with your new account.
+          </Text>
+        </View>
+
+        <View style={styles.form}>
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Full Name</Text>
 
             <TextInput
-              style={styles.input}
-              placeholder="Email"
-              onChangeText={handleChange('email')}
-              onBlur={handleBlur('email')}
-              value={values.email}
-              keyboardType="email-address"
+              clearButtonMode="while-editing"
+              onChangeText={name => setForm({ ...form, name })}
+              placeholder="John Doe"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              value={form.name} />
+          </View>
+
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Email Address</Text>
+
+            <TextInput
               autoCapitalize="none"
-              placeholderTextColor="#aaa"
-            />
-            {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              keyboardType="email-address"
+              onChangeText={email => setForm({ ...form, email })}
+              placeholder="john@example.com"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              value={form.email} />
+          </View>
 
-            <RNPickerSelect
-  onValueChange={handleChange('country')}
-  placeholder={{ label: 'Sélectionnez un pays', value: '' }}
-  items={[
-    { label: 'France', value: 'France' },
-    { label: 'Canada', value: 'Canada' },
-    { label: 'Morocco', value: 'Morocco' },
-    { label: 'United States', value: 'United States' },
-    { label: 'Germany', value: 'Germany' },
-    { label: 'Italy', value: 'Italy' },
-    { label: 'Spain', value: 'Spain' },
-    { label: 'United Kingdom', value: 'United Kingdom' },
-    { label: 'Australia', value: 'Australia' },
-    { label: 'Brazil', value: 'Brazil' },
-    { label: 'India', value: 'India' },
-    { label: 'Japan', value: 'Japan' },
-  ]}
-  style={{
-    inputAndroid: styles.input,
-    inputIOS: styles.input,
-    iconContainer: {
-      top: '12%',
-      right: '2%',
-    },
-  }}
-/>
-
-            {errors.country && <Text style={styles.error}>{errors.country}</Text>}
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Password</Text>
 
             <TextInput
-              style={styles.input}
-              placeholder="Mot de passe"
-              onChangeText={handleChange('password')}
-              onBlur={handleBlur('password')}
-              value={values.password}
-              secureTextEntry
-              placeholderTextColor="#aaa"
-            />
-            {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={password => setForm({ ...form, password })}
+              placeholder="********"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              secureTextEntry={true}
+              value={form.password} />
+          </View>
+
+          <View style={styles.input}>
+            <Text style={styles.inputLabel}>Confirm Password</Text>
 
             <TextInput
-              style={styles.input}
-              placeholder="Confirmer le mot de passe"
-              onChangeText={handleChange('confirmPassword')}
-              onBlur={handleBlur('confirmPassword')}
-              value={values.confirmPassword}
-              secureTextEntry
-              placeholderTextColor="#aaa"
-            />
-            {errors.confirmPassword && <Text style={styles.error}>{errors.confirmPassword}</Text>}
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+              onChangeText={confirmPassword =>
+                setForm({ ...form, confirmPassword })
+              }
+              placeholder="********"
+              placeholderTextColor="#6b7280"
+              style={styles.inputControl}
+              secureTextEntry={true}
+              value={form.confirmPassword} />
+          </View>
 
-            {/* Updated onPress handler */}
-            <TouchableOpacity style={styles.signUpButton} onPress={() => handleSubmit()}>
-              <Text style={styles.signUpText}>S'inscrire</Text>
+          <View style={styles.formAction}>
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}>
+              <View style={styles.btn}>
+                <Text style={styles.btnText}>Get Started</Text>
+              </View>
             </TouchableOpacity>
+          </View>
+        </View>
+      </KeyboardAwareScrollView>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.link}>Vous avez déjà un compte ? Allez à la connexion</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </Formik>
-    </View>
+      <TouchableOpacity
+        onPress={() => {
+          // handle link
+        }}>
+        <Text style={styles.formFooter}>
+          Already have an account?{' '}
+          <Text style={{ textDecorationLine: 'underline' }}>Sign in</Text>
+        </Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#F0F4F8',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 40,
-    borderRadius: 20,
+    paddingVertical: 24,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
   },
   title: {
-    fontSize: 28,
+    fontSize: 31,
+    fontWeight: '700',
+    color: '#1D2A32',
+    marginBottom: 6,
+  },
+  subtitle: {
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#929292',
+  },
+  /** Header */
+  header: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
     marginBottom: 24,
+    paddingHorizontal: 24,
+  },
+  headerBack: {
+    padding: 8,
+    paddingTop: 0,
+    position: 'relative',
+    marginLeft: -16,
+    marginBottom: 6,
+  },
+  /** Form */
+  form: {
+    marginBottom: 24,
+    paddingHorizontal: 24,
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+  formAction: {
+    marginTop: 4,
+    marginBottom: 16,
+  },
+  formFooter: {
+    paddingVertical: 24,
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#222',
     textAlign: 'center',
-    color:'#333',
-    fontWeight:'bold',
+    letterSpacing: 0.15,
   },
-  input:{
-    height : 50,
-    borderColor:'#ccc',
-    borderWidth : 1,
-    marginBottom : 16,
-    backgroundColor:'#fff',
-    paddingLeft :16,
-    borderRadius :10,
-    shadowColor:'#000',
-    shadowOpacity :0.1,
-    shadowRadius :5,
-    elevation :2,
+  /** Input */
+  input: {
+    marginBottom: 16,
   },
-  signUpButton:{
-    backgroundColor:'#DF8B92',
-    paddingVertical :12,
-    marginBottom :16,
-    borderRadius :10,
-    width:'80%',
-    alignSelf:'center',
-    shadowColor:'#000',
-    shadowOpacity :0.2,
-    shadowRadius :5,
-    elevation :3,
+  inputLabel: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#222',
+    marginBottom: 8,
   },
-  signUpText:{
-    color:'#fff',
-    textAlign:'center',
-    fontSize :18,
-    fontWeight :'bold',
+  inputControl: {
+    height: 50,
+    backgroundColor: '#fff',
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    fontSize: 15,
+    fontWeight: '500',
+    color: '#222',
+    borderWidth: 1,
+    borderColor: '#C9D3DB',
+    borderStyle: 'solid',
   },
-  link:{
-     color:'#DF8B92',
-     textAlign:'center',
-     textDecorationLine:'underline',
-     marginTop:'12%',
-   },
-   error: {
-    color: 'red',
-    marginBottom: 8, // Changed from "8" to 8
+  /** Button */
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    backgroundColor: '#075eec',
+    borderColor: '#075eec',
   },
-  
+  btnText: {
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    color: '#fff',
+  },
 });
-
-export default SignUp;

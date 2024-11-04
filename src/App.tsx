@@ -10,9 +10,10 @@ import Profile from './screens/ProfileScreen';
 import HomePerfume from './screens/PromoScreen';
 import PerfumeScreen from './screens/PerfumeScreen';
 import BodyProductsScreen from './screens/BodyProductsScreen';
-import BlushersScreen from './screens/BlushersScreen'; // Import BlushersScreen
-import 'react-native-gesture-handler';
+import BlushersScreen from './screens/BlushersScreen'; 
 import PromoScreen from './screens/PromoScreen';
+import 'react-native-gesture-handler';
+import MascaraScreen from './screens/MascaraScreen';
 
 // Define types for navigation parameters
 type RootStackParamList = {
@@ -22,7 +23,16 @@ type RootStackParamList = {
   Profile: undefined;
   HomePerfume: undefined;
   PerfumeScreen: undefined;
-  BlushersScreen: undefined; // Add BlushersScreen to types
+  BlushersScreen: undefined; 
+  OrderConfirmationScreen: {
+    orderId: string;
+    totalAmount: string;
+    items: Array<{
+      name: string;
+      quantity: number;
+      price: string;
+    }>;
+  };
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -46,6 +56,7 @@ const HomeStack = () => {
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="HomePerfume" component={HomePerfume} />
+      <Stack.Screen name="MascaraScreen" component={MascaraScreen}/>
       <Stack.Screen name="PerfumeScreen" component={PerfumeScreen} />
       <Stack.Screen name="BlushersScreen" component={BlushersScreen} options={{ title: 'Make-Up' }} />
     </Stack.Navigator>
@@ -73,8 +84,10 @@ const App = () => {
           <Drawer.Screen name="HomeStack" component={HomeStack} options={{ title: 'Home' }} />
           <Drawer.Screen name="Body-Pack" component={BodyProductsScreen} />
           <Drawer.Screen name="Blushers" component={BlushersScreen} options={{ title: 'Make-Up' }} /> 
-          <Drawer.Screen name="Our-Promo" component={PromoScreen} options={{title: 'Our exclusive promos'}} />
-          <Drawer.Screen name="Our perfumes" component={PerfumeScreen} options={{title:'Our Perfumes'}}/>
+          <Drawer.Screen name="Our-Promo" component={PromoScreen} options={{ title: 'Our exclusive promos' }} />
+          <Drawer.Screen name="Our perfumes" component={PerfumeScreen} options={{ title: 'Our Perfumes' }} />
+          <Drawer.Screen name="Our Mascaras" component={MascaraScreen} options={{ title: 'Our Mascaras' }} />
+
         </Drawer.Navigator>
       </NavigationContainer>
     </ImageBackground>

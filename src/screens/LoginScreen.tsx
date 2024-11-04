@@ -1,188 +1,262 @@
-// Login.tsx
-
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-interface LoginProps {
-  navigation: any; // Replace with a more specific type if using TypeScript
-}
+const INPUT_OFFSET = 50;
 
-const Login: React.FC<LoginProps> = ({ navigation }) => {
+export default function Example() {
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
-
-  const handleLogin = () => {
-    const { email, password } = form;
-    if (!email || !password) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs.');
-      return;
-    }
-    // Add your login logic here (API call)
-    Alert.alert('Succès', 'Connexion réussie!');
-    // navigation.navigate('Home'); // Navigate to home or dashboard after login
-  };
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
-      <KeyboardAwareScrollView style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <View style={styles.container}>
         <View style={styles.header}>
-          <Image
-            alt="App Logo"
-            resizeMode="contain"
-            style={styles.headerImg}
-            source={{ uri: 'https://i.pinimg.com/564x/0d/ba/0f/0dba0f58167eb0b79dddf50aab0d4839.jpg' }} 
-          />
-          <Text style={styles.title}>Connectez-vous</Text> 
-          <Text style={styles.subtitle}>Accédez à votre compte et plus</Text>
+          <Text style={styles.title}>Enter your phone</Text>
+
+          <Text style={styles.subtitle}>
+            You will receive a 4 digit code to verify your account
+          </Text>
         </View>
 
         <View style={styles.form}>
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>E-mail</Text>
-            <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
-              clearButtonMode="while-editing"
-              keyboardType="email-address"
-              onChangeText={email => setForm({ ...form, email })}
-              placeholder="john@example.com"
-              placeholderTextColor="#6b7280"
-              style={styles.inputControl}
-              value={form.email}
-              accessibilityLabel="Email input"
-            />
-          </View>
+            <Text style={styles.inputLabel}>+1</Text>
 
-          <View style={styles.input}>
-            <Text style={styles.inputLabel}>Mot de passe</Text>
             <TextInput
-              autoCorrect={false}
               clearButtonMode="while-editing"
-              onChangeText={password => setForm({ ...form, password })}
-              placeholder="********"
-              placeholderTextColor="#6b7280"
+              keyboardType="phone-pad"
+              onChangeText={phone => setForm({ ...form, phone })}
+              placeholder="Phone number"
+              placeholderTextColor="#505060"
+              returnKeyType="done"
               style={styles.inputControl}
-              secureTextEntry
-              value={form.password}
-              accessibilityLabel="Password input"
-            />
+              value={form.phone} />
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={handleLogin}>
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}>
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Se connecter</Text>
+                <View style={{ width: 32 }} />
+
+                <Text style={styles.btnText}>Continue</Text>
+
+                <MaterialCommunityIcons
+                  color="#fff"
+                  name="arrow-right"
+                  size={20}
+                  style={{ marginLeft: 12 }} />
+              </View>
+            </TouchableOpacity>
+
+            <Text style={styles.formActionSpacer}>Or continue with</Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}>
+              <View style={styles.btnSecondary}>
+                <MaterialCommunityIcons
+                  color="#000"
+                  name="email-fast-outline"
+                  size={22}
+                  style={{ marginRight: 12 }} />
+
+                <Text style={styles.btnSecondaryText}>Email</Text>
+
+                <View style={{ width: 34 }} />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}>
+              <View style={styles.btnSecondary}>
+                <MaterialCommunityIcons
+                  color="#000"
+                  name="apple"
+                  size={22}
+                  style={{ marginRight: 12 }} />
+
+                <Text style={styles.btnSecondaryText}>Apple</Text>
+
+                <View style={{ width: 34 }} />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}>
+              <View style={styles.btnSecondary}>
+                <MaterialCommunityIcons
+                  color="#000"
+                  name="google"
+                  size={22}
+                  style={{ marginRight: 12 }} />
+
+                <Text style={styles.btnSecondaryText}>Google</Text>
+
+                <View style={{ width: 34 }} />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => {
+                // handle onPress
+              }}>
+              <View style={styles.btnSecondary}>
+                <MaterialCommunityIcons
+                  color="#000"
+                  name="facebook"
+                  size={22}
+                  style={{ marginRight: 12 }} />
+
+                <Text style={styles.btnSecondaryText}>Facebook</Text>
+
+                <View style={{ width: 34 }} />
               </View>
             </TouchableOpacity>
           </View>
 
-          {/* Lien vers la page de réinitialisation du mot de passe */}
-          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-            <Text style={styles.forgotPasswordText}>Mot de passe oublié?</Text>
+          <TouchableOpacity
+            onPress={() => {
+              // handle link
+            }}
+            style={{ marginTop: 'auto' }}>
+            <Text style={styles.formFooter}>
+              Not a member? <Text style={{ color: '#d897f8' }}>Sign up</Text>
+            </Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAwareScrollView>
-
-      {/* Lien vers la page d'inscription */}
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.formFooter}>
-          Vous n’avez pas de compte?{' '}
-          <Text style={{ textDecorationLine: 'underline', color: '#DF8B92' }}>S'inscrire</Text>
-        </Text>
-      </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 24,
+    padding: 24,
     flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+  },
+  header: {
+    marginVertical: 36,
   },
   title: {
-    fontSize: 31,
-    fontWeight: '700',
-    color: '#1D2A32',
-    marginBottom: 6,
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#222',
+    marginBottom: 8,
   },
   subtitle: {
     fontSize: 15,
     fontWeight: '500',
     color: '#929292',
   },
-  header: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 36,
-  },
-  headerImg: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
-    marginBottom: 36,
-  },
+  /** Form */
   form: {
     marginBottom: 24,
-    paddingHorizontal: 24,
     flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
   },
   formAction: {
-    marginTop: 4,
-    marginBottom: 16,
+    marginVertical: 12,
   },
-  forgotPasswordText: {
-    fontSize: 16,
+  formActionSpacer: {
+    marginVertical: 32,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#075eec',
+    color: '#4b4858',
     textAlign: 'center',
-    marginTop: 10,
   },
   formFooter: {
-    paddingVertical: 24,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#222',
+    color: '#51505a',
     textAlign: 'center',
-    letterSpacing: 0.15,
   },
+  /** Input */
   input: {
     marginBottom: 16,
   },
   inputLabel: {
-    fontSize: 17,
-    fontWeight: '600',
+    position: 'absolute',
+    width: INPUT_OFFSET,
+    lineHeight: 44,
+    top: 0,
+    left: 0,
+    bottom: 0,
+    marginHorizontal: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 15,
+    fontWeight: '500',
     color: '#222',
-    marginBottom: 8,
+    zIndex: 9,
+    paddingLeft: 5,
   },
   inputControl: {
-    height: 50,
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
+    height: 44,
+    backgroundColor: '#f3eff6',
+    paddingLeft: INPUT_OFFSET,
+    paddingRight: 24,
     borderRadius: 12,
     fontSize: 15,
     fontWeight: '500',
     color: '#222',
     borderWidth: 1,
-   borderColor:'#C9D3DB',
-   },
-   btn:{
-     flexDirection:'row',
-     alignItems:'center',
-     justifyContent:'center',
-     borderRadius :30,
-     paddingVertical :10,
-     paddingHorizontal :20,
-     backgroundColor:'#DF8B92', // Couleur du bouton
-   },
-   btnText:{
-     fontSize :18,
-     lineHeight :26,
-     fontWeight :'600',
-     color :'#fff'
-   }
+    borderColor: 'transparent',
+    borderStyle: 'solid',
+  },
+  /** Button */
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    backgroundColor: '#000',
+    borderColor: '#000',
+  },
+  btnText: {
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    color: '#fff',
+  },
+  btnSecondary: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderWidth: 1,
+    backgroundColor: 'transparent',
+    borderColor: '#000',
+    marginBottom: 12,
+  },
+  btnSecondaryText: {
+    fontSize: 18,
+    lineHeight: 26,
+    fontWeight: '600',
+    color: '#000',
+  },
 });
-
-export default Login;

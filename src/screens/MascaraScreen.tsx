@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image, SafeAreaView
 import { SearchBar, Rating } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-interface Blusher {
+interface Mascara {
     id: string;
     name: string;
     description: string;
@@ -13,54 +13,38 @@ interface Blusher {
     promoPrice?: number;
 }
 
-const blushersData: Blusher[] = [
-    { 
-        id: '1', 
-        name: 'Soft Rose', 
-        description: 'A soft pink shade for a natural look.', 
-        image: { uri: 'https://cdn.shopify.com/s/files/1/0314/1143/7703/files/ECOMM-SP-LIQUID-BLUSH-DEWY-WORTH.jpg?v=1727895680' }, 
+// Données d'exemple pour les mascaras
+const mascarasData: Mascara[] = [
+    {
+        id: '1',
+        name: 'Mascara Luxe Volumizer',
+        description: 'Donnez du volume et de la longueur à vos cils avec notre mascara révolutionnaire.',
+        image: { uri: 'https://www.okkiyo.com/cdn/shop/files/okkiyo-024-Edit-2_1024x.jpg?v=1704693218' },
         rating: 4.5,
-        price: 20.00,
-        promoPrice: 15.00,
-    },
-    { 
-        id: '2', 
-        name: 'Peachy Glow', 
-        description: 'A warm peach tone for a radiant finish.', 
-        image: { uri: 'https://cdn.shopify.com/s/files/1/0314/1143/7703/files/ECOMM-SP-LIQUID-BLUSH-MATTE-FAITH.jpg?v=1727897164' }, 
-        rating: 4.0,
-        price: 22.00,
-        promoPrice: 18.00,
-    },
-    { 
-        id: '3', 
-        name: 'Soft Pinch Luminous Powder Blush', 
-        description: 'A deep berry shade for a bold statement.', 
-        image: { uri: 'https://cdn.shopify.com/s/files/1/0314/1143/7703/files/ECOMM-SOFT-PINCH-LUMINOUS-POWDER-BLUSH-LOVE.jpg?v=1711393161' }, 
-        rating: 4.7,
-        price: 24.00,
-        promoPrice: 20.00,
-    },
-    { 
-        id: '4', 
-        name: 'Rare Beauty Mini Soft Pinch Dewy Liquid Blush - Encourage', 
-        description: 'A dewy liquid blush for a fresh look.', 
-        image: { uri: 'https://www.rarebeauty.com/cdn/shop/files/ECOMM-SP-LIQUID-BLUSH-DEWY-HOPE.jpg?v=1727895243' },
-        rating: 4.8,
-        price: 25.00,
-        promoPrice: 22.00,
+        price: 29.99,
+        promoPrice: 24.99,
     },
     {
-        id: '5',
-        name: 'Soft Pinch Tinted Lip Oil',
-        description: 'An innovative lip jelly that transforms into a lightweight oil.',
-        image: { uri: 'https://www.rarebeauty.com/cdn/shop/products/soft-pinch-tinted-lip-oil-hope-1440x1952.jpg?v=1679094432' },
-        rating: 3.5,
-        price: 18.00,
-        promoPrice: 15.00,
+        id: '2',
+        name: 'Mascara Long Lasting',
+        description: 'Une tenue parfaite toute la journée sans s\'effriter.',
+        image: { uri: 'https://stila.co.uk/cdn/shop/products/SC70010001-STAYALLDAYMASCARA_KEYVISUAL.jpg?v=1616480152&width=480SBO2s=' },
+        rating: 4.7,
+        price: 32.00,
     },
+    {
+        id: '3',
+        name: 'Mascara Waterproof',
+        description: 'Résistant à l\'eau, parfait pour les jours de pluie.',
+        image: { uri: 'https://images.pexels.com/photos/2637820/pexels-photo-2637820.jpeg?cs=srgb&dl=pexels-828860-2637820.jpg&fm=jpg' },
+        rating: 4.3,
+        price: 27.50,
+        promoPrice: 23.00,
+    },
+    // Ajoutez plus de mascaras ici
 ];
-const BlushersScreen = () => {
+
+const MascaraScreen = () => {
     const [search, setSearch] = useState<string>('');
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -74,11 +58,11 @@ const BlushersScreen = () => {
 
     const handleSearch = (text: string) => setSearch(text);
 
-    const filteredBlushers = blushersData.filter(blusher =>
-        blusher.name.toLowerCase().includes(search.toLowerCase())
+    const filteredMascaras = mascarasData.filter(mascara =>
+        mascara.name.toLowerCase().includes(search.toLowerCase())
     );
 
-    const renderBlusherItem = ({ item }: { item: Blusher }) => (
+    const renderMascaraItem = ({ item }: { item: Mascara }) => (
         <Animated.View style={[styles.card, { opacity: fadeAnim }]}>
             <Image source={item.image} style={styles.image} />
             <View style={styles.cardContent}>
@@ -118,7 +102,7 @@ const BlushersScreen = () => {
                     <Icon name="shopping-cart" size={30} color="#6BBE45" />
                 </TouchableOpacity>
             </View>
-            <Text style={styles.header}>Our Blushers Collection</Text>
+            <Text style={styles.header}>Our Luxury Mascara Collection</Text>
             <SearchBar
                 placeholder="Search..."
                 onChangeText={handleSearch}
@@ -129,8 +113,8 @@ const BlushersScreen = () => {
                 inputContainerStyle={styles.searchInputContainer}
             />
             <FlatList
-                data={filteredBlushers}
-                renderItem={renderBlusherItem}
+                data={filteredMascaras}
+                renderItem={renderMascaraItem}
                 keyExtractor={item => item.id}
                 contentContainerStyle={styles.listContainer}
                 showsVerticalScrollIndicator={false}
@@ -186,9 +170,9 @@ const styles = StyleSheet.create({
         borderColor: '#E0E0E0',
     },
     image: {
-        width: 80,
-        height: 80,
-        borderRadius: 10,
+        width: 150,
+        height: 150,
+        borderRadius: 5,
         marginRight: 15,
     },
     cardContent: {
@@ -252,4 +236,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default BlushersScreen;
+export default MascaraScreen;
