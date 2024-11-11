@@ -1,188 +1,194 @@
-// Login.tsx
-
 import React, { useState } from 'react';
-import { StyleSheet, SafeAreaView, View, Image, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {
+  StyleSheet,
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 
-interface LoginProps {
-  navigation: any; // Replace with a more specific type if using TypeScript
+interface LoginForm {
+  email: string;
+  password: string;
 }
 
-const Login: React.FC<LoginProps> = ({ navigation }) => {
-  const [form, setForm] = useState({
+const LoginScreen: React.FC = () => {
+  const [form, setForm] = useState<LoginForm>({
     email: '',
     password: '',
   });
 
+  const navigation = useNavigation<NavigationProp<any>>();
+
   const handleLogin = () => {
-    const { email, password } = form;
-    if (!email || !password) {
-      Alert.alert('Erreur', 'Veuillez remplir tous les champs.');
+    // Basic validation (you can expand this further)
+    if (!form.email || !form.password) {
+      alert('Please enter both email and password.');
       return;
     }
-    // Add your login logic here (API call)
-    Alert.alert('Succès', 'Connexion réussie!');
-    // navigation.navigate('Home'); // Navigate to home or dashboard after login
+
+    // Handle login logic here, e.g., API call
+    console.log(form);
+    // Navigate to the Home screen after successful login
+    navigation.navigate('Home'); // Replace 'Home' with your target screen
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#e8ecf4' }}>
-      <KeyboardAwareScrollView style={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
         <View style={styles.header}>
-          <Image
-            alt="App Logo"
-            resizeMode="contain"
-            style={styles.headerImg}
-            source={{ uri: 'https://i.pinimg.com/564x/0d/ba/0f/0dba0f58167eb0b79dddf50aab0d4839.jpg' }} 
-          />
-          <Text style={styles.title}>Connectez-vous</Text> 
-          <Text style={styles.subtitle}>Accédez à votre compte et plus</Text>
+          <Text style={styles.title}>Login</Text>
         </View>
 
         <View style={styles.form}>
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>E-mail</Text>
             <TextInput
-              autoCapitalize="none"
-              autoCorrect={false}
               clearButtonMode="while-editing"
               keyboardType="email-address"
               onChangeText={email => setForm({ ...form, email })}
-              placeholder="john@example.com"
-              placeholderTextColor="#6b7280"
+              placeholder="Email"
+              placeholderTextColor="#505060"
+              returnKeyType="done"
               style={styles.inputControl}
               value={form.email}
+              accessible={true}
               accessibilityLabel="Email input"
             />
           </View>
 
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>Mot de passe</Text>
             <TextInput
-              autoCorrect={false}
+              secureTextEntry
               clearButtonMode="while-editing"
               onChangeText={password => setForm({ ...form, password })}
-              placeholder="********"
-              placeholderTextColor="#6b7280"
+              placeholder="Password"
+              placeholderTextColor="#505060"
+              returnKeyType="done"
               style={styles.inputControl}
-              secureTextEntry
               value={form.password}
+              accessible={true}
               accessibilityLabel="Password input"
             />
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity onPress={handleLogin}>
+            <TouchableOpacity onPress={handleLogin} accessible={true} accessibilityLabel="Login button">
               <View style={styles.btn}>
-                <Text style={styles.btnText}>Se connecter</Text>
+                <Text style={styles.btnText}>Login</Text>
+                <MaterialCommunityIcons
+                  color="#fff"
+                  name="arrow-right"
+                  size={20}
+                  style={styles.icon}
+                />
               </View>
             </TouchableOpacity>
+
+            <Text style={styles.formActionSpacer}>Or continue with</Text>
+
+            <View style={styles.socialButtons}>
+              <TouchableOpacity style={styles.socialButton}>
+                <MaterialCommunityIcons name="apple" size={30} color="#000" />
+                <Text style={styles.socialButtonText}>Apple</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <MaterialCommunityIcons name="google" size={30} color="#DB4437" />
+                <Text style={styles.socialButtonText}>Google</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <MaterialCommunityIcons name="facebook" size={30} color="#3B5998" />
+                <Text style={styles.socialButtonText}>Facebook</Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
-          {/* Lien vers la page de réinitialisation du mot de passe */}
-          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
-            <Text style={styles.forgotPasswordText}>Mot de passe oublié?</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SignUp')} // Navigate to Sign Up screen
+            style={{ marginTop: 'auto' }}>
+            <Text style={styles.formFooter}>
+              Not a member? <Text style={{ color: '#d897f8' }}>Sign up</Text>
+            </Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAwareScrollView>
-
-      {/* Lien vers la page d'inscription */}
-      <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-        <Text style={styles.formFooter}>
-          Vous n’avez pas de compte?{' '}
-          <Text style={{ textDecorationLine: 'underline', color: '#DF8B92' }}>S'inscrire</Text>
-        </Text>
-      </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   container: {
-    paddingVertical: 24,
+    padding: 24,
     flexGrow: 1,
   },
-  title: {
-    fontSize: 31,
-    fontWeight: '700',
-    color: '#1D2A32',
-    marginBottom: 6,
-  },
-  subtitle: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#929292',
-  },
   header: {
-    alignItems: 'center',
-    justifyContent: 'center',
     marginVertical: 36,
   },
-  headerImg: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
-    marginBottom: 36,
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#222',
+    marginBottom: 8,
   },
   form: {
     marginBottom: 24,
-    paddingHorizontal: 24,
     flexGrow: 1,
-  },
-  formAction: {
-    marginTop: 4,
-    marginBottom: 16,
-  },
-  forgotPasswordText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#075eec',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  formFooter: {
-    paddingVertical: 24,
-    fontSize: 15,
-    fontWeight: '600',
-    color: '#222',
-    textAlign: 'center',
-    letterSpacing: 0.15,
   },
   input: {
     marginBottom: 16,
   },
-  inputLabel: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: '#222',
-    marginBottom: 8,
-  },
   inputControl: {
-    height: 50,
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
+    height: 44,
+    backgroundColor: '#f3eff6',
+    paddingLeft: 12,
+    paddingRight: 24,
     borderRadius: 12,
     fontSize: 15,
-    fontWeight: '500',
     color: '#222',
     borderWidth: 1,
-   borderColor:'#C9D3DB',
-   },
-   btn:{
-     flexDirection:'row',
-     alignItems:'center',
-     justifyContent:'center',
-     borderRadius :30,
-     paddingVertical :10,
-     paddingHorizontal :20,
-     backgroundColor:'#DF8B92', // Couleur du bouton
-   },
-   btnText:{
-     fontSize :18,
-     lineHeight :26,
-     fontWeight :'600',
-     color :'#fff'
-   }
+    borderColor: 'transparent',
+    borderStyle: 'solid',
+  },
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 500,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#000',
+  },
+  btnText: {
+    fontSize: 18,
+    color: '#fff',
+  },
+  formActionSpacer: {
+    marginVertical: 32,
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#4b4858',
+    textAlign: 'center',
+  },
+  socialButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+  },
+  socialButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  socialButtonText: {
+    marginLeft: 8,
+    fontSize: 16,
+  },
 });
 
-export default Login;
+export default LoginScreen;
