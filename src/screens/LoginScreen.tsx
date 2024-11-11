@@ -8,133 +8,106 @@ import {
   TextInput,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProp } from '@react-navigation/native';
 
-const INPUT_OFFSET = 50;
+interface LoginForm {
+  email: string;
+  password: string;
+}
 
-export default function Example() {
-  const [form, setForm] = useState({
+const LoginScreen: React.FC = () => {
+  const [form, setForm] = useState<LoginForm>({
     email: '',
     password: '',
   });
+
+  const navigation = useNavigation<NavigationProp<any>>();
+
+  const handleLogin = () => {
+    // Basic validation (you can expand this further)
+    if (!form.email || !form.password) {
+      alert('Please enter both email and password.');
+      return;
+    }
+
+    // Handle login logic here, e.g., API call
+    console.log(form);
+    // Navigate to the Home screen after successful login
+    navigation.navigate('Home'); // Replace 'Home' with your target screen
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Enter your phone</Text>
-
-          <Text style={styles.subtitle}>
-            You will receive a 4 digit code to verify your account
-          </Text>
+          <Text style={styles.title}>Login</Text>
         </View>
 
         <View style={styles.form}>
           <View style={styles.input}>
-            <Text style={styles.inputLabel}>+1</Text>
-
             <TextInput
               clearButtonMode="while-editing"
-              keyboardType="phone-pad"
-              onChangeText={phone => setForm({ ...form, phone })}
-              placeholder="Phone number"
+              keyboardType="email-address"
+              onChangeText={email => setForm({ ...form, email })}
+              placeholder="Email"
               placeholderTextColor="#505060"
               returnKeyType="done"
               style={styles.inputControl}
-              value={form.phone} />
+              value={form.email}
+              accessible={true}
+              accessibilityLabel="Email input"
+            />
+          </View>
+
+          <View style={styles.input}>
+            <TextInput
+              secureTextEntry
+              clearButtonMode="while-editing"
+              onChangeText={password => setForm({ ...form, password })}
+              placeholder="Password"
+              placeholderTextColor="#505060"
+              returnKeyType="done"
+              style={styles.inputControl}
+              value={form.password}
+              accessible={true}
+              accessibilityLabel="Password input"
+            />
           </View>
 
           <View style={styles.formAction}>
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
+            <TouchableOpacity onPress={handleLogin} accessible={true} accessibilityLabel="Login button">
               <View style={styles.btn}>
-                <View style={{ width: 32 }} />
-
-                <Text style={styles.btnText}>Continue</Text>
-
+                <Text style={styles.btnText}>Login</Text>
                 <MaterialCommunityIcons
                   color="#fff"
                   name="arrow-right"
                   size={20}
-                  style={{ marginLeft: 12 }} />
+                  style={styles.icon}
+                />
               </View>
             </TouchableOpacity>
 
             <Text style={styles.formActionSpacer}>Or continue with</Text>
 
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
-              <View style={styles.btnSecondary}>
-                <MaterialCommunityIcons
-                  color="#000"
-                  name="email-fast-outline"
-                  size={22}
-                  style={{ marginRight: 12 }} />
-
-                <Text style={styles.btnSecondaryText}>Email</Text>
-
-                <View style={{ width: 34 }} />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
-              <View style={styles.btnSecondary}>
-                <MaterialCommunityIcons
-                  color="#000"
-                  name="apple"
-                  size={22}
-                  style={{ marginRight: 12 }} />
-
-                <Text style={styles.btnSecondaryText}>Apple</Text>
-
-                <View style={{ width: 34 }} />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
-              <View style={styles.btnSecondary}>
-                <MaterialCommunityIcons
-                  color="#000"
-                  name="google"
-                  size={22}
-                  style={{ marginRight: 12 }} />
-
-                <Text style={styles.btnSecondaryText}>Google</Text>
-
-                <View style={{ width: 34 }} />
-              </View>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={() => {
-                // handle onPress
-              }}>
-              <View style={styles.btnSecondary}>
-                <MaterialCommunityIcons
-                  color="#000"
-                  name="facebook"
-                  size={22}
-                  style={{ marginRight: 12 }} />
-
-                <Text style={styles.btnSecondaryText}>Facebook</Text>
-
-                <View style={{ width: 34 }} />
-              </View>
-            </TouchableOpacity>
+            <View style={styles.socialButtons}>
+              <TouchableOpacity style={styles.socialButton}>
+                <MaterialCommunityIcons name="apple" size={30} color="#000" />
+                <Text style={styles.socialButtonText}>Apple</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <MaterialCommunityIcons name="google" size={30} color="#DB4437" />
+                <Text style={styles.socialButtonText}>Google</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <MaterialCommunityIcons name="facebook" size={30} color="#3B5998" />
+                <Text style={styles.socialButtonText}>Facebook</Text>
+              </TouchableOpacity>
+            </View>
           </View>
 
           <TouchableOpacity
-            onPress={() => {
-              // handle link
-            }}
+            onPress={() => navigation.navigate('SignUp')} // Navigate to Sign Up screen
             style={{ marginTop: 'auto' }}>
             <Text style={styles.formFooter}>
               Not a member? <Text style={{ color: '#d897f8' }}>Sign up</Text>
@@ -144,14 +117,16 @@ export default function Example() {
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   container: {
     padding: 24,
     flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
   },
   header: {
     marginVertical: 36,
@@ -162,20 +137,37 @@ const styles = StyleSheet.create({
     color: '#222',
     marginBottom: 8,
   },
-  subtitle: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#929292',
-  },
-  /** Form */
   form: {
     marginBottom: 24,
     flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 0,
   },
-  formAction: {
-    marginVertical: 12,
+  input: {
+    marginBottom: 16,
+  },
+  inputControl: {
+    height: 44,
+    backgroundColor: '#f3eff6',
+    paddingLeft: 12,
+    paddingRight: 24,
+    borderRadius: 12,
+    fontSize: 15,
+    color: '#222',
+    borderWidth: 1,
+    borderColor: 'transparent',
+    borderStyle: 'solid',
+  },
+  btn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 500,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#000',
+  },
+  btnText: {
+    fontSize: 18,
+    color: '#fff',
   },
   formActionSpacer: {
     marginVertical: 32,
@@ -184,79 +176,19 @@ const styles = StyleSheet.create({
     color: '#4b4858',
     textAlign: 'center',
   },
-  formFooter: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#51505a',
-    textAlign: 'center',
+  socialButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
   },
-  /** Input */
-  input: {
-    marginBottom: 16,
-  },
-  inputLabel: {
-    position: 'absolute',
-    width: INPUT_OFFSET,
-    lineHeight: 44,
-    top: 0,
-    left: 0,
-    bottom: 0,
-    marginHorizontal: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#222',
-    zIndex: 9,
-    paddingLeft: 5,
-  },
-  inputControl: {
-    height: 44,
-    backgroundColor: '#f3eff6',
-    paddingLeft: INPUT_OFFSET,
-    paddingRight: 24,
-    borderRadius: 12,
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#222',
-    borderWidth: 1,
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-  },
-  /** Button */
-  btn: {
+  socialButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    backgroundColor: '#000',
-    borderColor: '#000',
   },
-  btnText: {
-    fontSize: 18,
-    lineHeight: 26,
-    fontWeight: '600',
-    color: '#fff',
-  },
-  btnSecondary: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderWidth: 1,
-    backgroundColor: 'transparent',
-    borderColor: '#000',
-    marginBottom: 12,
-  },
-  btnSecondaryText: {
-    fontSize: 18,
-    lineHeight: 26,
-    fontWeight: '600',
-    color: '#000',
+  socialButtonText: {
+    marginLeft: 8,
+    fontSize: 16,
   },
 });
+
+export default LoginScreen;

@@ -13,6 +13,7 @@ interface Blusher {
     promoPrice?: number;
 }
 
+// Sample data for blushers
 const blushersData: Blusher[] = [
     { 
         id: '1', 
@@ -60,8 +61,10 @@ const blushersData: Blusher[] = [
         promoPrice: 15.00,
     },
 ];
+
 const BlushersScreen = () => {
     const [search, setSearch] = useState<string>('');
+    const [cartCount, setCartCount] = useState<number>(0); // Cart count state
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -77,6 +80,10 @@ const BlushersScreen = () => {
     const filteredBlushers = blushersData.filter(blusher =>
         blusher.name.toLowerCase().includes(search.toLowerCase())
     );
+
+    const handleAddToCart = () => {
+        setCartCount(cartCount + 1); // Increment cart count when an item is added
+    };
 
     const renderBlusherItem = ({ item }: { item: Blusher }) => (
         <Animated.View style={[styles.card, { opacity: fadeAnim }]}>
@@ -100,14 +107,14 @@ const BlushersScreen = () => {
                     <TouchableOpacity style={styles.favoriteButton}>
                         <Text style={styles.buttonText}>♥ Add to Favorites</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.cartButton}>
+                    <TouchableOpacity style={styles.cartButton} onPress={handleAddToCart}>
                         <Text style={styles.buttonText}>🛒 Add to Cart</Text>
                     </TouchableOpacity>
                 </View>
             </View>
         </Animated.View>
     );
-
+    
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.iconContainer}>
@@ -116,9 +123,15 @@ const BlushersScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.iconButton}>
                     <Icon name="shopping-cart" size={30} color="#6BBE45" />
+                    {/* Display the cart count on the cart icon */}
+                    {cartCount > 0 && (
+                        <View style={styles.cartCount}>
+                            <Text style={styles.cartCountText}>{cartCount}</Text>
+                        </View>
+                    )}
                 </TouchableOpacity>
             </View>
-            <Text style={styles.header}>Our Blushers Collection</Text>
+            <Text style={styles.header}>Our Premium Blushers Collection</Text>
             <SearchBar
                 placeholder="Search..."
                 onChangeText={handleSearch}
@@ -146,23 +159,39 @@ const styles = StyleSheet.create({
         backgroundColor: '#FAFAFA',
     },
     header: {
-        fontSize: 28,
+        fontSize: 24, // réduire la taille de police pour que l'en-tête prenne moins de place
         fontWeight: 'bold',
-        marginVertical: 20,
+        marginVertical: 10, // Réduit l'espacement en haut et en bas de l'en-tête
         textAlign: 'center',
         color: '#333',
     },
+    
     iconContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 15,
-        paddingHorizontal: 16,
+        marginBottom: 10, // Diminue la marge en bas pour un espacement plus serré
+        paddingHorizontal: 10, // Réduire le padding latéral
     },
+    
     iconButton: {
         padding: 10,
         borderRadius: 50,
         backgroundColor: '#FFF',
         elevation: 2,
+    },
+    cartCount: {
+        position: 'absolute',
+        top: -5,
+        right: -5,
+        backgroundColor: 'red',
+        borderRadius: 10,
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+    },
+    cartCountText: {
+        color: 'white',
+        fontSize: 12,
+        fontWeight: 'bold',
     },
     searchContainer: {
         backgroundColor: '#FFF',
@@ -186,9 +215,9 @@ const styles = StyleSheet.create({
         borderColor: '#E0E0E0',
     },
     image: {
-        width: 80,
-        height: 80,
-        borderRadius: 10,
+        width: 150,
+        height: 150,
+        borderRadius: 5,
         marginRight: 15,
     },
     cardContent: {
@@ -245,10 +274,10 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#FFFFFF',
-        fontWeight: '600',
+        fontWeight: 'bold',
     },
     listContainer: {
-        paddingBottom: 20,
+        paddingBottom: 40,
     },
 });
 

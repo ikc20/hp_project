@@ -46,6 +46,7 @@ const mascarasData: Mascara[] = [
 
 const MascaraScreen = () => {
     const [search, setSearch] = useState<string>('');
+    const [cartCount, setCartCount] = useState<number>(0); // Add cart count state
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -61,6 +62,10 @@ const MascaraScreen = () => {
     const filteredMascaras = mascarasData.filter(mascara =>
         mascara.name.toLowerCase().includes(search.toLowerCase())
     );
+
+    const handleAddToCart = () => {
+        setCartCount(cartCount + 1); // Increment cart count when an item is added
+    };
 
     const renderMascaraItem = ({ item }: { item: Mascara }) => (
         <Animated.View style={[styles.card, { opacity: fadeAnim }]}>
@@ -84,7 +89,7 @@ const MascaraScreen = () => {
                     <TouchableOpacity style={styles.favoriteButton}>
                         <Text style={styles.buttonText}>♥ Add to Favorites</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.cartButton}>
+                    <TouchableOpacity style={styles.cartButton} onPress={handleAddToCart}>
                         <Text style={styles.buttonText}>🛒 Add to Cart</Text>
                     </TouchableOpacity>
                 </View>
@@ -100,6 +105,12 @@ const MascaraScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.iconButton}>
                     <Icon name="shopping-cart" size={30} color="#6BBE45" />
+                    {/* Display the cart count on the cart icon */}
+                    {cartCount > 0 && (
+                        <View style={styles.cartCount}>
+                            <Text style={styles.cartCountText}>{cartCount}</Text>
+                        </View>
+                    )}
                 </TouchableOpacity>
             </View>
             <Text style={styles.header}>Our Luxury Mascara Collection</Text>
@@ -147,6 +158,20 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         backgroundColor: '#FFF',
         elevation: 2,
+    },
+    cartCount: {
+        position: 'absolute',
+        top: -5,
+        right: -5,
+        backgroundColor: 'red',
+        borderRadius: 10,
+        paddingHorizontal: 6,
+        paddingVertical: 2,
+    },
+    cartCountText: {
+        color: 'white',
+        fontSize: 12,
+        fontWeight: 'bold',
     },
     searchContainer: {
         backgroundColor: '#FFF',
@@ -229,10 +254,10 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#FFFFFF',
-        fontWeight: '600',
+        fontWeight: 'bold',
     },
     listContainer: {
-        paddingBottom: 20,
+        paddingBottom: 40,
     },
 });
 

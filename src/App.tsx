@@ -10,10 +10,11 @@ import Profile from './screens/ProfileScreen';
 import HomePerfume from './screens/PromoScreen';
 import PerfumeScreen from './screens/PerfumeScreen';
 import BodyProductsScreen from './screens/BodyProductsScreen';
-import BlushersScreen from './screens/BlushersScreen'; 
+import BlushersScreen from './screens/BlushersScreen';
 import PromoScreen from './screens/PromoScreen';
-import 'react-native-gesture-handler';
 import MascaraScreen from './screens/MascaraScreen';
+import CartScreen from './screens/CartScreen'; // Import CartScreen
+import 'react-native-gesture-handler';
 
 // Define types for navigation parameters
 type RootStackParamList = {
@@ -23,7 +24,8 @@ type RootStackParamList = {
   Profile: undefined;
   HomePerfume: undefined;
   PerfumeScreen: undefined;
-  BlushersScreen: undefined; 
+  BlushersScreen: undefined;
+  Cart: undefined; // Add Cart screen type
   OrderConfirmationScreen: {
     orderId: string;
     totalAmount: string;
@@ -40,7 +42,7 @@ const Drawer = createDrawerNavigator();
 
 const HomeStack = () => {
   return (
-    <Stack.Navigator 
+    <Stack.Navigator
       screenOptions={{
         headerStyle: {
           backgroundColor: '#DF8B92',
@@ -56,38 +58,39 @@ const HomeStack = () => {
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="HomePerfume" component={HomePerfume} />
-      <Stack.Screen name="MascaraScreen" component={MascaraScreen}/>
       <Stack.Screen name="PerfumeScreen" component={PerfumeScreen} />
       <Stack.Screen name="BlushersScreen" component={BlushersScreen} options={{ title: 'Make-Up' }} />
+      <Stack.Screen name="Cart" component={CartScreen} /> 
     </Stack.Navigator>
   );
 };
 
 const App = () => {
   return (
-    <ImageBackground 
-      source={require('./assets/pastel.png')}  
-      style={styles.backgroundImage}
-    >
+    <ImageBackground source={require('./assets/pastel.png')} style={styles.backgroundImage}>
       <NavigationContainer>
-        <Drawer.Navigator 
+        <Drawer.Navigator
           initialRouteName="HomeStack"
           screenOptions={{
             drawerStyle: {
-              backgroundColor: '#6b3059',
-              width: 240,
+              backgroundColor: '#6b3059', // Drawer background color
+              width: 240, // Drawer width
             },
-            drawerActiveTintColor: '#DF8B92',
-            drawerInactiveTintColor: '#fff',
-          }} 
+            drawerActiveTintColor: '#DF8B92', // Active item color
+            drawerInactiveTintColor: '#fff', // Inactive item color
+            drawerLabelStyle: {
+              fontWeight: 'bold', // Bold text for drawer labels
+            },
+            drawerType: 'slide', // Sliding effect for drawer
+          }}
         >
           <Drawer.Screen name="HomeStack" component={HomeStack} options={{ title: 'Home' }} />
-          <Drawer.Screen name="Body-Pack" component={BodyProductsScreen} />
-          <Drawer.Screen name="Blushers" component={BlushersScreen} options={{ title: 'Make-Up' }} /> 
+          <Drawer.Screen name="Body-Pack" component={BodyProductsScreen} options={{title: 'Body-Pack'}}/>
+          <Drawer.Screen name="Blushers" component={BlushersScreen} options={{ title: 'Make-Up' }} />
           <Drawer.Screen name="Our-Promo" component={PromoScreen} options={{ title: 'Our exclusive promos' }} />
           <Drawer.Screen name="Our perfumes" component={PerfumeScreen} options={{ title: 'Our Perfumes' }} />
           <Drawer.Screen name="Our Mascaras" component={MascaraScreen} options={{ title: 'Our Mascaras' }} />
-
+          <Drawer.Screen name="Cart" component={CartScreen} options={{ title: 'Cart' }} /> 
         </Drawer.Navigator>
       </NavigationContainer>
     </ImageBackground>
