@@ -9,6 +9,7 @@ type RootStackParamList = {
   HomePerfume: undefined;
   BodyProductsScreen: undefined;
   PerfumeScreen: undefined;
+  CreditCardScreen : undefined;
 };
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
@@ -53,6 +54,10 @@ const HomeScreen = () => {
 
         <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('PerfumeScreen')}>
           <Text style={styles.navigationButtonText}>Our Perfumes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('CreditCardScreen')} >
+        <Text style={styles.navigationButtonText}>Credit Card</Text>
+
         </TouchableOpacity>
       </Animated.View>
     </ImageBackground>
