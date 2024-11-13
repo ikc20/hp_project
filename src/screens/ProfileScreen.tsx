@@ -8,7 +8,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
+import EditProfile from './screens/EditProfile';
+import SettingsScreen from './screens/SettingsScreen';
 
 export default function Example() {
   const navigation = useNavigation(); // Access navigation
@@ -42,6 +44,26 @@ export default function Example() {
           >
             <Text style={styles.profileActionText}>Edit Profile</Text>
             <FeatherIcon color="#fff" name="edit" size={16} />
+          </TouchableOpacity>
+        </View>
+
+        {/* Options Section */}
+        <View style={styles.options}>
+        <TouchableOpacity
+  style={styles.optionButton}
+  onPress={() => navigation.navigate('SettingsScreen')} // Ensure the name matches exactly
+>
+  <FeatherIcon name="settings" size={20} color="#007bff" />
+  <Text style={styles.optionText}>Settings</Text>
+</TouchableOpacity>
+
+
+          <TouchableOpacity
+            style={styles.optionButton}
+            onPress={() => navigation.navigate('OrderHistory')}
+          >
+            <FeatherIcon name="shopping-bag" size={20} color="#007bff" />
+            <Text style={styles.optionText}>Order History</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -109,5 +131,29 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
     color: '#fff',
+  },
+  
+  /** Options Section */
+  options: {
+    marginTop: 24,
+    padding: 16,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  optionButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+  },
+  optionText: {
+    marginLeft: 12,
+    fontSize: 16,
+    color: '#007bff',
+    fontWeight: '500',
   },
 });

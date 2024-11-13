@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { ImageBackground, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+
 import ProfileScreen from './screens/ProfileScreen';
 import Login from './screens/LoginScreen';
 import SignUp from './screens/SignUpScreen';
 import Home from './screens/HomeScreen';
-import Profile from './screens/ProfileScreen';
 import EditProfile from './screens/EditProfile';
 import PerfumeScreen from './screens/PerfumeScreen';
 import BodyProductsScreen from './screens/BodyProductsScreen';
@@ -17,22 +17,9 @@ import PromoScreen from './screens/PromoScreen';
 import MascaraScreen from './screens/MascaraScreen';
 import CartScreen from './screens/CartScreen';
 import CreditCardScreen from './screens/CreditCardScreen';
-import 'react-native-gesture-handler';
+import SettingsScreen from './screens/SettingsScreen';
 
-type RootStackParamList = {
-  Home: undefined;
-  Login: undefined;
-  SignUp: undefined;
-  PromoScreen:undefined;
-  Profile: undefined;
-  HomePerfume: undefined;
-  PerfumeScreen: undefined;
-  BlushersScreen: undefined;
-  Cart: undefined;
-  CreditCardScreen: undefined;
-};
-
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const HomeStack = () => {
@@ -45,12 +32,14 @@ const HomeStack = () => {
       }}
     >
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="PromoScreen" component={PromoScreen}  options={{title:'Promos'}}/>
-      <Stack.Screen name="Login" component={Login} options={{title:'SIgn In'}} />
-      <Stack.Screen name="SignUp" component={SignUp} options ={{title:'Sign Up'}} />
-      <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="EditProfile" component={EditProfile} options={{title: 'Edit Profile'}}/>
-      <Stack.Screen name="BodyProductsScreen" component={BodyProductsScreen} options={{title:' Our B-Products'}}/>
+      <Stack.Screen name="PromoScreen" component={PromoScreen} options={{ title: 'Promos' }} />
+      <Stack.Screen name="Login" component={Login} options={{ title: 'Sign In' }} />
+      <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'Sign Up' }} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfile} options={{ title: 'Edit Profile' }} />
+      <Stack.Screen name="SettingsScreen" component={SettingsScreen} />
+
+      <Stack.Screen name="BodyProductsScreen" component={BodyProductsScreen} options={{ title: 'Our B-Products' }} />
       <Stack.Screen name="PerfumeScreen" component={PerfumeScreen} />
       <Stack.Screen name="BlushersScreen" component={BlushersScreen} options={{ title: 'Make-Up' }} />
       <Stack.Screen name="Cart" component={CartScreen} />
@@ -60,19 +49,18 @@ const HomeStack = () => {
 };
 
 const App = () => {
-  // Make sure to use the StripeProvider correctly
   return (
-    <StripeProvider publishableKey="your-publishable-key">
+    <StripeProvider publishableKey="pk_test_51PayWeRsGYjzqkNXVpxUAHvuURBrYRcrpLt6EGet2MDXmSwR4mfwvgi8sqAKliFRijUBZbcJ6mYhPBVvmbAX8ds800AvBgXnWY">
       <ImageBackground source={require('./assets/pastel.png')} style={styles.backgroundImage}>
         <NavigationContainer>
           <Drawer.Navigator
             initialRouteName="Home"
             screenOptions={{
               drawerStyle: {
-                backgroundColor: '#6b3059',
+                backgroundColor: '#cc7c84',
                 width: 240,
               },
-              drawerActiveTintColor: '#DF8B92',
+              drawerActiveTintColor: '#6b3059',
               drawerInactiveTintColor: '#fff',
               drawerLabelStyle: {
                 fontWeight: 'bold',
@@ -81,7 +69,7 @@ const App = () => {
             }}
           >
             <Drawer.Screen name="Home" component={HomeStack} options={{ title: 'Home' }} />
-            <Drawer.Screen name="Profile" component={ProfileScreen} options={{title: 'Profile'}} />
+            <Drawer.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile' }} />
             <Drawer.Screen name="Body-Pack" component={BodyProductsScreen} options={{ title: 'Body-Pack' }} />
             <Drawer.Screen name="Blushers" component={BlushersScreen} options={{ title: 'Make-Up' }} />
             <Drawer.Screen name="Our-Promo" component={PromoScreen} options={{ title: 'Our exclusive promos' }} />

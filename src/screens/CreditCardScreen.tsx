@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  SafeAreaView,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { StyleSheet, SafeAreaView, View, Text, TouchableOpacity, Alert } from 'react-native';
+import { CardField, useStripe } from '@stripe/stripe-react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+// Interface pour structurer les cartes de crédit
 interface CreditCard {
   label: string;
   number: string;
@@ -15,6 +11,7 @@ interface CreditCard {
   cardType: string;
 }
 
+// Liste des cartes de crédit disponibles
 const creditCards: CreditCard[] = [
   {
     label: 'Visa',
@@ -37,8 +34,11 @@ const creditCards: CreditCard[] = [
 ];
 
 const CreditCardScreen: React.FC = () => {
+  const { createPaymentMethod } = useStripe();
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
+  const [cardDetails, setCardDetails] = useState<any>(null); // Détails de la carte saisis
 
+  // Fonction pour obtenir l'icône de la carte en fonction du type
   const getCardIcon = (cardType: string) => {
     switch (cardType) {
       case 'Visa':
@@ -52,17 +52,33 @@ const CreditCardScreen: React.FC = () => {
     }
   };
 
-  const handleContinue = () => {
-    if (selectedCard !== null) {
-      // Logique pour passer à l'étape suivante
-      console.log("Naviguer vers le formulaire de paiement");
+  // Gestion de la logique de paiement lorsque l'utilisateur clique sur "Continuer"
+  const handleContinue = async () => {
+    if (selectedCard !== null && cardDetails?.complete) {
+      // Créer une méthode de paiement avec les détails de la carte
+      const { error, paymentMethod } = await createPaymentMethod({
+        type: 'card',
+        card: cardDetails,
+      });
+
+      if (error) {
+        Alert.alert(`Erreur lors du paiement : ${error.message}`);
+      } else {
+        console.log('Paiement réussi !', paymentMethod);
+        Alert.alert('Paiement réussi !', `ID du paiement : ${paymentMethod.id}`);
+        // Logique pour envoyer paymentMethod.id à votre backend ou passer à l'étape suivante
+      }
+    } else {
+      Alert.alert("Veuillez sélectionner une carte et entrer des informations valides.");
     }
   };
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <Text style={styles.title}>Select a Payment Method</Text>
+        <Text style={styles.title}>Sélectionnez une méthode de paiement</Text>
+
+        {/* Affichage des cartes disponibles pour sélection */}
         {creditCards.map((card, index) => {
           const isActive = selectedCard === index;
           return (
@@ -79,10 +95,27 @@ const CreditCardScreen: React.FC = () => {
                 <Text style={styles.cardType}>{card.cardType}</Text>
               </View>
               <Text style={styles.cardNumber}>{card.number}</Text>
-              <Text style={styles.cardExpiration}>Expires: {card.expiration}</Text>
+              <Text style={styles.cardExpiration}>Expire : {card.expiration}</Text>
             </TouchableOpacity>
           );
         })}
+
+        {/* Affichage conditionnel du champ pour entrer les détails de la carte */}
+        {selectedCard !== null && (
+          <CardField
+            postalCodeEnabled={true}
+            placeholder={{
+              number: '4242 4242 4242 4242',
+            }}
+            style={styles.cardField}
+            onCardChange={(details) => {
+              console.log('Détails de la carte', details);
+              setCardDetails(details);
+            }}
+          />
+        )}
+
+        {/* Bouton pour continuer l'achat */}
         <TouchableOpacity
           onPress={handleContinue}
           style={[styles.continueButton, selectedCard === null && styles.buttonDisabled]}
@@ -164,10 +197,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
-  
+  buttonDisabled: {
+    backgroundColor: '#b0c4de', // Couleur pour le bouton désactivé
+  },
   buttonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
+  },
+  cardField: {
+    height: 50,
+    marginVertical: 30,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
   },
 });
