@@ -4,10 +4,12 @@ import { ImageBackground, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import ProfileScreen from './screens/ProfileScreen';
 import Login from './screens/LoginScreen';
 import SignUp from './screens/SignUpScreen';
 import Home from './screens/HomeScreen';
 import Profile from './screens/ProfileScreen';
+import EditProfile from './screens/EditProfile';
 import PerfumeScreen from './screens/PerfumeScreen';
 import BodyProductsScreen from './screens/BodyProductsScreen';
 import BlushersScreen from './screens/BlushersScreen';
@@ -21,6 +23,7 @@ type RootStackParamList = {
   Home: undefined;
   Login: undefined;
   SignUp: undefined;
+  PromoScreen:undefined;
   Profile: undefined;
   HomePerfume: undefined;
   PerfumeScreen: undefined;
@@ -42,9 +45,12 @@ const HomeStack = () => {
       }}
     >
       <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="PromoScreen" component={PromoScreen}  options={{title:'Promos'}}/>
+      <Stack.Screen name="Login" component={Login} options={{title:'SIgn In'}} />
+      <Stack.Screen name="SignUp" component={SignUp} options ={{title:'Sign Up'}} />
       <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="EditProfile" component={EditProfile} options={{title: 'Edit Profile'}}/>
+      <Stack.Screen name="BodyProductsScreen" component={BodyProductsScreen} options={{title:' Our B-Products'}}/>
       <Stack.Screen name="PerfumeScreen" component={PerfumeScreen} />
       <Stack.Screen name="BlushersScreen" component={BlushersScreen} options={{ title: 'Make-Up' }} />
       <Stack.Screen name="Cart" component={CartScreen} />
@@ -75,6 +81,7 @@ const App = () => {
             }}
           >
             <Drawer.Screen name="Home" component={HomeStack} options={{ title: 'Home' }} />
+            <Drawer.Screen name="Profile" component={ProfileScreen} options={{title: 'Profile'}} />
             <Drawer.Screen name="Body-Pack" component={BodyProductsScreen} options={{ title: 'Body-Pack' }} />
             <Drawer.Screen name="Blushers" component={BlushersScreen} options={{ title: 'Make-Up' }} />
             <Drawer.Screen name="Our-Promo" component={PromoScreen} options={{ title: 'Our exclusive promos' }} />

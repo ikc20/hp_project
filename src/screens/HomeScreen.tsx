@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 type RootStackParamList = {
   Login: undefined;
   SignUp: undefined;
-  HomePerfume: undefined;
+  PromoScreen: undefined;
   BodyProductsScreen: undefined;
   PerfumeScreen: undefined;
   CreditCardScreen : undefined;
@@ -44,7 +44,7 @@ const HomeScreen = () => {
           <Text style={styles.navigationButtonText}>Create an Account</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('HomePerfume')}>
+        <TouchableOpacity style={styles.navigationButton} onPress={() => navigation.navigate('PromoScreen')}>
           <Text style={styles.navigationButtonText}>Promo Of The Week</Text>
         </TouchableOpacity>
 

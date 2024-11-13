@@ -8,32 +8,40 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+import { useNavigation } from '@react-navigation/native'; 
 
 export default function Example() {
+  const navigation = useNavigation(); // Access navigation
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#f6f6f6' }}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
+        
+        {/* Profile Section */}
         <View style={styles.profile}>
           <Image
-            alt=""
+            accessibilityRole="image"
+            accessible
+            accessibilityLabel="Profile picture of Jenny Fox"
             source={{
               uri: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=256&h=256&q=80',
             }}
-            style={styles.profileAvatar} />
+            style={styles.profileAvatar}
+          />
 
-          <Text style={styles.profileName}>Jenny Fox</Text>
-
-          <Text style={styles.profileEmail}>jenny.fox@mail.com</Text>
+          <Text style={styles.profileName}>Your Name</Text>
+          <Text style={styles.profileEmail}>example@mail.com</Text>
 
           <TouchableOpacity
-            onPress={() => {
-              // handle onPress
-            }}>
-            <View style={styles.profileAction}>
-              <Text style={styles.profileActionText}>Edit Profile</Text>
-
-              <FeatherIcon color="#fff" name="edit" size={16} />
-            </View>
+            style={styles.profileAction}
+            onPress={() => navigation.navigate('EditProfile')}
+            activeOpacity={0.8}
+            accessibilityRole="button"
+            accessible
+            accessibilityLabel="Edit profile button"
+          >
+            <Text style={styles.profileActionText}>Edit Profile</Text>
+            <FeatherIcon color="#fff" name="edit" size={16} />
           </TouchableOpacity>
         </View>
       </View>
@@ -42,14 +50,18 @@ export default function Example() {
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#f6f6f6',
+  },
   container: {
     paddingVertical: 48,
-    paddingHorizontal: 0,
+    paddingHorizontal: 16,
     flexGrow: 1,
     flexShrink: 1,
     flexBasis: 0,
   },
-  /** Profile */
+  /** Profile Section */
   profile: {
     padding: 16,
     flexDirection: 'column',
@@ -58,11 +70,17 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#e3e3e3',
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3, // for Android shadow
   },
   profileAvatar: {
-    width: 60,
-    height: 60,
-    borderRadius: 9999,
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
   profileName: {
     marginTop: 12,
@@ -71,7 +89,7 @@ const styles = StyleSheet.create({
     color: '#090909',
   },
   profileEmail: {
-    marginTop: 6,
+    marginTop: 4,
     fontSize: 16,
     fontWeight: '400',
     color: '#848484',
@@ -84,7 +102,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#007bff',
-    borderRadius: 12,
+    borderRadius: 8,
   },
   profileActionText: {
     marginRight: 8,
